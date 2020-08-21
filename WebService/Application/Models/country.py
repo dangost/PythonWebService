@@ -1,9 +1,11 @@
 class Country:
 
-    Country_Id = 0
+    CountryId = 0
 
-    Country_Name = ""
+    CountryName = ""
 
-    Nat_Lang_Code = 0
+    CountryCode = ""
 
-    Currency_Code = ""
+    NatLangCode = 0
+
+    CurrencyCode = ""
