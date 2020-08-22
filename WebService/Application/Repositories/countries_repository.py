@@ -1,8 +1,11 @@
 from Application.Models.country import Country
 import Application.BaseSupport.SQLiteSupport as Base
 import sqlite3
+from flask import jsonify
+import json
 from os import _exists as file_exists
 import os
+from Application.BaseSupport.executes import request_to_json as json
 
 
 class CountriesRepository:
@@ -56,14 +59,15 @@ class CountriesRepository:
     @staticmethod
     def get():
         connection = sqlite3.connect(CountriesRepository.sqlite_path)
-        c = connection.cursor()
-        ls = c.execute("SELECT CountryId, CountryName, CountryCode, NatLangCode, CurrencyCode FROM Countries")
-        return str(c.fetchall())
+        cursor = connection.cursor()
+        request = "SELECT CountryId, CountryName, CountryCode, NatLangCode, CurrencyCode FROM Countries"
+        return json(cursor, request)
 
     @staticmethod
     def get_id(id):
         connection = sqlite3.connect(CountriesRepository.sqlite_path)
-        c = connection.cursor()
-        ls = c.execute("SELECT * FROM Countries WHERE CountryId = " + str(id))
-        return str(c.fetchone())
+        cursor = connection.cursor()
+        request = "SELECT * FROM Countries WHERE CountryId = " + str(id)
+        return json(cursor, request)
+
 
