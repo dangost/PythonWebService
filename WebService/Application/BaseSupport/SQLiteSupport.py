@@ -1,5 +1,6 @@
 import sqlite3
 
+
 def CreateBase():
     ls = ['''CREATE TABLE [Countries] (
 	[CountryId]	INTEGER,

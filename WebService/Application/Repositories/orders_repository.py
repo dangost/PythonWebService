@@ -1,10 +1,10 @@
-from Application.Models.country import Country
+from Application.Models.orders import Orders
 import Application.BaseSupport.SQLiteSupport as Base
 import sqlite3
 from os import _exists as file_exists
 
 
-class CountriesRepository:
+class OrdersRepository:
     sqlite_path = "sqlite.db"
 
     def __init__(self):
@@ -27,7 +27,7 @@ class CountriesRepository:
     def add(self, obj):
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
-        request = "INSERT INTO Countries(CountryName, CountryCode, NatLangCode, CurrencyCode) VALUES (\""+obj.CountryName+"\", \""+obj.CountryCode+"\", \""+str(obj.NatLangCode)+"\", \""+obj.CurrencyCode+"\");"
+        request = "INSERT INTO Orders(CustomerId, SalesRepId, OrderDate, OrderCode, OrderStatus, OrderTotal, OrderCurrency, PromotionCode) VALUES (\""+str(obj.CustomerId)+"\", \""+str(obj.SalesRepId)+"\", \""+obj.OrderDate+"\", \""+obj.OrderCode+"\", \""+obj.OrderStatus+"\", \""+str(obj.OrderTotal)+"\", \""+obj.OrderCurrency+"\", \""+obj.PromotionCode+"\");"
         c.execute(request)
         connection.commit()
         c.close()
@@ -36,14 +36,14 @@ class CountriesRepository:
     def delete(self, id):
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
-        request = "DELETE FROM Countries WHERE CountryId = "+str(id)+";"
+        request = "DELETE FROM Orders WHERE OrderId = "+str(id)+";"
         c.execute(request)
         connection.commit()
         c.close()
         connection.close()
 
     def edit(self, id, obj):
-        request = "UPDATE Countries SET CountryName = '" + obj.CountryName + "',CountryCode = '" + obj.CountryCode + "',NatLangCode = '" + str(obj.NatLangCode) + "',CurrencyCode = '" + obj.CurrencyCode + " WHERE CountryId= "+str(id)+";"
+        request = "UPDATE Orders SET CustomerId = '" + str(obj.CustomerId) + "',SalesRepId = '" + str(obj.SalesRepId) + "',OrderDate = '" + obj.OrderDate + "',OrderCode = '" + obj.OrderCode + "',OrderStatus = '" + obj.OrderStatus + "',OrderTotal = '" + str(obj.OrderTotal) + "',OrderCurrency = '" + obj.OrderCurrency + "',PromotionCode = '" + obj.PromotionCode + " WHERE OrderId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)
@@ -54,24 +54,24 @@ class CountriesRepository:
     def get(self):
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
-        request = "SELECT CountryId, CountryName, CountryCode, NatLangCode, CurrencyCode FROM Countries"
+        request = "SELECT OrderId, CustomerId, SalesRepId, OrderDate, OrderCode, OrderStatus, OrderTotal, OrderCurrency, PromotionCode FROM Orders"
         cursor.execute(request)
         fetch = cursor.fetchall()
         ls = []
         for each in fetch:
-            country = Country()
-            country.load(each)
-            ls.append(country.to_json())
+            orders = Orders()
+            orders.load(each)
+            ls.append(orders.to_json())
         return str(ls)
 
     def get_id(self, id):
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
-        request = "SELECT * FROM Countries WHERE CountryId = "+str(id)
+        request = "SELECT * FROM Orders WHERE OrderId = "+str(id)
         cursor.execute(request)
         fetch = cursor.fetchone()
-        country = Country()
-        country.load(fetch)
-        return str(country.to_json())
+        orders = Orders()
+        orders.load(fetch)
+        return str(orders.to_json())
 
     
