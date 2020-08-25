@@ -2,15 +2,17 @@ from Application.Models.customeremployee import CustomerEmployee
 import Application.BaseSupport.SQLiteSupport as Base
 import sqlite3
 from os import _exists as file_exists
+from typing import List
+from Application.Abstraction.abs_repository import ARepository
 
 
-class CustomerEmployeesRepository:
+class CustomerEmployeesRepository(CustomerEmployee, ARepository):
     sqlite_path = "sqlite.db"
 
     def __init__(self):
         self.load()
 
-    def load(self):
+    def load(self) -> None:
         try:
             connection = sqlite3.connect(self.sqlite_path)
             c = connection.cursor()
@@ -24,7 +26,7 @@ class CustomerEmployeesRepository:
         except BaseException:
             pass
 
-    def add(self, obj):
+    def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = "INSERT INTO CustomerEmployees(CompanyId, BadgeNumber, JobTitle, Department, CreditLimit, CreditLimitCurrency) VALUES (\""+str(obj.CompanyId)+"\", \""+obj.BadgeNumber+"\", \""+obj.JobTitle+"\", \""+obj.Department+"\", \""+str(obj.CreditLimit)+"\", \""+str(obj.CreditLimitCurrency)+"\");"
@@ -33,7 +35,7 @@ class CustomerEmployeesRepository:
         c.close()
         connection.close()
 
-    def delete(self, id):
+    def delete(self, id) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = "DELETE FROM CustomerEmployees WHERE CustomerEmployeeId = "+str(id)+";"
@@ -42,7 +44,7 @@ class CustomerEmployeesRepository:
         c.close()
         connection.close()
 
-    def edit(self, id, obj):
+    def edit(self, id, obj) -> None:
         request = "UPDATE CustomerEmployees SET CompanyId = '" + str(obj.CompanyId) + "',BadgeNumber = '" + obj.BadgeNumber + "',JobTitle = '" + obj.JobTitle + "',Department = '" + obj.Department + "',CreditLimit = '" + str(obj.CreditLimit) + "',CreditLimitCurrency = '" + str(obj.CreditLimitCurrency) + " WHERE CustomerEmployeeId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
@@ -51,7 +53,7 @@ class CustomerEmployeesRepository:
         c.close()
         connection.close()
 
-    def get(self):
+    def get(self) -> List[CustomerEmployee]:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = "SELECT CustomerEmployeeId, CompanyId, BadgeNumber, JobTitle, Department, CreditLimit, CreditLimitCurrency FROM CustomerEmployees"
@@ -61,10 +63,10 @@ class CustomerEmployeesRepository:
         for each in fetch:
             customeremployee = CustomerEmployee()
             customeremployee.load(each)
-            ls.append(customeremployee.to_json())
-        return str(ls)
+            ls.append(customeremployee)
+        return ls
 
-    def get_id(self, id):
+    def get_id(self, id) -> CustomerEmployee:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = "SELECT * FROM CustomerEmployees WHERE CustomerEmployeeId = "+str(id)
@@ -72,6 +74,6 @@ class CustomerEmployeesRepository:
         fetch = cursor.fetchone()
         customeremployee = CustomerEmployee()
         customeremployee.load(fetch)
-        return str(customeremployee.to_json())
+        return customeremployee
 
     

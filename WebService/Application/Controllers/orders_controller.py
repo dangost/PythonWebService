@@ -1,9 +1,8 @@
+from Application.DI import orders_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.orders_repository import OrdersRepository
 from Application.Models.orders import Orders
-
-from Application.Abstraction.initialize import orders_controller_init
-db = orders_controller_init()
 
 orders_controller_api = Blueprint('orders_controller_api', __name__)
 
@@ -12,12 +11,12 @@ orders_api = Blueprint('orders_api', __name__)
 
 @orders_controller_api.route("/api/Orders", methods=['GET'])
 def get_orders():
-    return db.get()
+    return jsonify(orders_db.get())
 
 
 @orders_controller_api.route("/api/Orders/<int:id>", methods=['GET'])
 def get_orders_id(id):
-    return db.get_id(id)
+    return jsonify(orders_db.get_id(id))
 
 
 @orders_controller_api.route("/api/Orders", methods=['POST'])
@@ -34,7 +33,7 @@ def post_orders():
     obj.PromotionCode = req_data["PromotionCode"]
 
     try:
-        db.add(obj)
+        orders_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -43,7 +42,7 @@ def post_orders():
 @orders_controller_api.route("/api/Orders/<int:id>", methods=['DELETE'])
 def delete_orders(id):
     try:
-        db.delete(id)
+        orders_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -63,7 +62,7 @@ def put_orders(id):
     obj.PromotionCode = req_data["PromotionCode"]
 
     try:
-        db.edit(id, obj)
+        orders_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

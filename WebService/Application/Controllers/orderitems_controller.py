@@ -1,9 +1,8 @@
+from Application.DI import orderitems_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.orderitems_repository import OrderItemsRepository
 from Application.Models.orderitem import OrderItem
-
-from Application.Abstraction.initialize import orderitems_controller_init
-db = orderitems_controller_init()
 
 orderitems_controller_api = Blueprint('orderitems_controller_api', __name__)
 
@@ -12,12 +11,12 @@ orderitems_api = Blueprint('orderitems_api', __name__)
 
 @orderitems_controller_api.route("/api/OrderItems", methods=['GET'])
 def get_orderitems():
-    return db.get()
+    return jsonify(orderitems_db.get())
 
 
 @orderitems_controller_api.route("/api/OrderItems/<int:id>", methods=['GET'])
 def get_orderitems_id(id):
-    return db.get_id(id)
+    return jsonify(orderitems_db.get_id(id))
 
 
 @orderitems_controller_api.route("/api/OrderItems", methods=['POST'])
@@ -30,7 +29,7 @@ def post_orderitem():
     obj.Quantity = req_data["Quantity"]
 
     try:
-        db.add(obj)
+        orderitems_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -39,7 +38,7 @@ def post_orderitem():
 @orderitems_controller_api.route("/api/OrderItems/<int:id>", methods=['DELETE'])
 def delete_orderitem(id):
     try:
-        db.delete(id)
+        orderitems_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -55,7 +54,7 @@ def put_orderitem(id):
     obj.Quantity = req_data["Quantity"]
 
     try:
-        db.edit(id, obj)
+        orderitems_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

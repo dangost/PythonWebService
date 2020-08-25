@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class Orders:
 
 	def __init__(self):
@@ -14,25 +18,21 @@ class Orders:
 		self.OrderCurrency = fetch[7]
 		self.PromotionCode = fetch[8]
 
-	def to_json(self):
-		dictionary = {"OrderId": self.OrderId, "CustomerId": self.CustomerId, "SalesRepId": self.SalesRepId, "OrderDate": self.OrderDate, "OrderCode": self.OrderCode, "OrderStatus": self.OrderStatus, "OrderTotal": self.OrderTotal, "OrderCurrency": self.OrderCurrency, "PromotionCode": self.PromotionCode}
-		return dictionary
 
+	OrderId: int
 
-	OrderId = 0
+	CustomerId: int
 
-	CustomerId = 0
+	SalesRepId: int
 
-	SalesRepId = 0
+	OrderDate: str
 
-	OrderDate = ""
+	OrderCode: str
 
-	OrderCode = ""
+	OrderStatus: str
 
-	OrderStatus = ""
+	OrderTotal: int
 
-	OrderTotal = 0
+	OrderCurrency: str
 
-	OrderCurrency = ""
-
-	PromotionCode = ""
+	PromotionCode: str

@@ -1,25 +1,37 @@
 from abc import ABC, abstractmethod
+from Application.Models.country import Country
+from flask import jsonify
+from typing import List
 
 
-class ARepository:
+from typing import TypeVar, Generic
 
-    object = None
+T = TypeVar('T')
 
-    def __init__(self, obj):
-        self.object = obj
-        self.load()
 
-    def load(self):
-        self.object.load(self.object)
+class ARepository(Generic[T], ABC):
 
-    def add(self, obj):
-        self.object.add(self.object, obj)
+    @abstractmethod
+    def load(self) -> None:
+        pass
 
-    def edit(self, id, obj):
-        self.object.edit(self.object, id, obj)
+    @abstractmethod
+    def add(self, obj) -> None:
+        pass
 
-    def get(self):
-        return self.object.get(self.object)
+    @abstractmethod
+    def edit(self, id, obj) -> None:
+        pass
 
-    def get_id(self, id):
-        return self.object.get_id(self.object, id)
+    @abstractmethod
+    def delete(self, id) -> None:
+        pass
+
+    @abstractmethod
+    def get(self) -> List[T]:
+        pass
+
+    @abstractmethod
+    def get_id(self, id) -> T:
+        pass
+

@@ -40,8 +40,8 @@ for i in range(len(class_names)):
     file = open(new_path, 'w')
 
 
-
-    temp_class = "class " + class_names[i] + ":\n\n"
+    temp_class = "from dataclasses import dataclass\n\n\n@dataclass()\n"
+    temp_class += "class " + class_names[i] + ":\n\n"
     temp_class += "\tdef __init__(self):\n\t\tpass\n\n"
     temp_class += "\tdef load(self, fetch):\n"
     load = ""
@@ -50,23 +50,16 @@ for i in range(len(class_names)):
         load +="\t\tself."+each+" = fetch["+str(fetch)+"]\n"
         fetch += 1
     temp_class += load
-    temp_class += "\n\tdef to_json(self):"
-
-    json = ""
-    for each in base[i]:
-        json += "\""+each+"\": self."+each+", "
-
-    temp_class += "\n\t\tdictionary = {" + json[0:-2] + "}\n\t\treturn dictionary\n"
 
     props = ""
 
     for each in base[i]:
         que = None
         if base[i].get(each) == "int":
-            que = 0
-        else: que = "\"\""
+            que = ": int"
+        else: que = ": str"
 
-        props += "\n\n\t"+each+" = "+str(que)
+        props += "\n\n\t"+each+str(que)
     temp_class += props
 
     file.write(temp_class)

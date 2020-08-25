@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class Person:
 
 	def __init__(self):
@@ -13,23 +17,19 @@ class Person:
 		self.CultureCode = fetch[6]
 		self.Gender = fetch[7]
 
-	def to_json(self):
-		dictionary = {"Id": self.Id, "FirstName": self.FirstName, "LastName": self.LastName, "MiddleName": self.MiddleName, "Nickname": self.Nickname, "NatLangCode": self.NatLangCode, "CultureCode": self.CultureCode, "Gender": self.Gender}
-		return dictionary
 
+	Id: int
 
-	Id = 0
+	FirstName: str
 
-	FirstName = ""
+	LastName: str
 
-	LastName = ""
+	MiddleName: str
 
-	MiddleName = ""
+	Nickname: str
 
-	Nickname = ""
+	NatLangCode: int
 
-	NatLangCode = 0
+	CultureCode: int
 
-	CultureCode = 0
-
-	Gender = ""
+	Gender: str

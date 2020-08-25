@@ -2,15 +2,17 @@ from Application.Models.phonenumber import PhoneNumber
 import Application.BaseSupport.SQLiteSupport as Base
 import sqlite3
 from os import _exists as file_exists
+from typing import List
+from Application.Abstraction.abs_repository import ARepository
 
 
-class PhoneNumbersRepository:
+class PhoneNumbersRepository(PhoneNumber, ARepository):
     sqlite_path = "sqlite.db"
 
     def __init__(self):
         self.load()
 
-    def load(self):
+    def load(self) -> None:
         try:
             connection = sqlite3.connect(self.sqlite_path)
             c = connection.cursor()
@@ -24,7 +26,7 @@ class PhoneNumbersRepository:
         except BaseException:
             pass
 
-    def add(self, obj):
+    def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = "INSERT INTO PhoneNumbers(PeoplePersonId, LocationLocationId, Phonenumber, CountryCode, PhoneType) VALUES (\""+str(obj.PeoplePersonId)+"\", \""+str(obj.LocationLocationId)+"\", \""+str(obj.Phonenumber)+"\", \""+str(obj.CountryCode)+"\", \""+str(obj.PhoneType)+"\");"
@@ -33,7 +35,7 @@ class PhoneNumbersRepository:
         c.close()
         connection.close()
 
-    def delete(self, id):
+    def delete(self, id) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = "DELETE FROM PhoneNumbers WHERE PhoneNumberId = "+str(id)+";"
@@ -42,7 +44,7 @@ class PhoneNumbersRepository:
         c.close()
         connection.close()
 
-    def edit(self, id, obj):
+    def edit(self, id, obj) -> None:
         request = "UPDATE PhoneNumbers SET PeoplePersonId = '" + str(obj.PeoplePersonId) + "',LocationLocationId = '" + str(obj.LocationLocationId) + "',Phonenumber = '" + str(obj.Phonenumber) + "',CountryCode = '" + str(obj.CountryCode) + "',PhoneType = '" + str(obj.PhoneType) + " WHERE PhoneNumberId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
@@ -51,7 +53,7 @@ class PhoneNumbersRepository:
         c.close()
         connection.close()
 
-    def get(self):
+    def get(self) -> List[PhoneNumber]:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = "SELECT PhoneNumberId, PeoplePersonId, LocationLocationId, Phonenumber, CountryCode, PhoneType FROM PhoneNumbers"
@@ -61,10 +63,10 @@ class PhoneNumbersRepository:
         for each in fetch:
             phonenumber = PhoneNumber()
             phonenumber.load(each)
-            ls.append(phonenumber.to_json())
-        return str(ls)
+            ls.append(phonenumber)
+        return ls
 
-    def get_id(self, id):
+    def get_id(self, id) -> PhoneNumber:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = "SELECT * FROM PhoneNumbers WHERE PhoneNumberId = "+str(id)
@@ -72,6 +74,6 @@ class PhoneNumbersRepository:
         fetch = cursor.fetchone()
         phonenumber = PhoneNumber()
         phonenumber.load(fetch)
-        return str(phonenumber.to_json())
+        return phonenumber
 
     

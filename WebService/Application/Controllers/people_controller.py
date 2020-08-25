@@ -1,10 +1,8 @@
+from Application.DI import people_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.people_repository import PeopleRepository
 from Application.Models.person import Person
-
-from Application.Abstraction.initialize import people_controller_init
-db = people_controller_init()
-
 
 people_controller_api = Blueprint('people_controller_api', __name__)
 
@@ -13,12 +11,12 @@ people_api = Blueprint('people_api', __name__)
 
 @people_controller_api.route("/api/People", methods=['GET'])
 def get_people():
-    return db.get()
+    return jsonify(people_db.get())
 
 
 @people_controller_api.route("/api/People/<int:id>", methods=['GET'])
 def get_people_id(id):
-    return db.get_id(id)
+    return jsonify(people_db.get_id(id))
 
 
 @people_controller_api.route("/api/People", methods=['POST'])
@@ -34,7 +32,7 @@ def post_person():
     obj.Gender = req_data["Gender"]
 
     try:
-        db.add(obj)
+        people_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -43,7 +41,7 @@ def post_person():
 @people_controller_api.route("/api/People/<int:id>", methods=['DELETE'])
 def delete_person(id):
     try:
-        db.delete(id)
+        people_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -62,7 +60,7 @@ def put_person(id):
     obj.Gender = req_data["Gender"]
 
     try:
-        db.edit(id, obj)
+        people_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

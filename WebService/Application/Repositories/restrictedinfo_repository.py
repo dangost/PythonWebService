@@ -2,15 +2,17 @@ from Application.Models.restrictedinfo import RestrictedInfo
 import Application.BaseSupport.SQLiteSupport as Base
 import sqlite3
 from os import _exists as file_exists
+from typing import List
+from Application.Abstraction.abs_repository import ARepository
 
 
-class RestrictedInfoRepository:
+class RestrictedInfoRepository(RestrictedInfo, ARepository):
     sqlite_path = "sqlite.db"
 
     def __init__(self):
         self.load()
 
-    def load(self):
+    def load(self) -> None:
         try:
             connection = sqlite3.connect(self.sqlite_path)
             c = connection.cursor()
@@ -24,7 +26,7 @@ class RestrictedInfoRepository:
         except BaseException:
             pass
 
-    def add(self, obj):
+    def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = "INSERT INTO RestrictedInfo(DateOfBirth, DateOfDeath, GovernmentId, PassportId, HireDire, SeniorityCode) VALUES (\""+obj.DateOfBirth+"\", \""+obj.DateOfDeath+"\", \""+obj.GovernmentId+"\", \""+obj.PassportId+"\", \""+obj.HireDire+"\", \""+str(obj.SeniorityCode)+"\");"
@@ -33,7 +35,7 @@ class RestrictedInfoRepository:
         c.close()
         connection.close()
 
-    def delete(self, id):
+    def delete(self, id) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = "DELETE FROM RestrictedInfo WHERE  = "+str(id)+";"
@@ -42,7 +44,7 @@ class RestrictedInfoRepository:
         c.close()
         connection.close()
 
-    def edit(self, id, obj):
+    def edit(self, id, obj) -> None:
         request = "UPDATE RestrictedInfo SET DateOfBirth = '" + obj.DateOfBirth + "',DateOfDeath = '" + obj.DateOfDeath + "',GovernmentId = '" + obj.GovernmentId + "',PassportId = '" + obj.PassportId + "',HireDire = '" + obj.HireDire + "',SeniorityCode = '" + str(obj.SeniorityCode) + " WHERE = "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
@@ -51,7 +53,7 @@ class RestrictedInfoRepository:
         c.close()
         connection.close()
 
-    def get(self):
+    def get(self) -> List[RestrictedInfo]:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = "SELECT , DateOfBirth, DateOfDeath, GovernmentId, PassportId, HireDire, SeniorityCode FROM RestrictedInfo"
@@ -61,10 +63,10 @@ class RestrictedInfoRepository:
         for each in fetch:
             restrictedinfo = RestrictedInfo()
             restrictedinfo.load(each)
-            ls.append(restrictedinfo.to_json())
-        return str(ls)
+            ls.append(restrictedinfo)
+        return ls
 
-    def get_id(self, id):
+    def get_id(self, id) -> RestrictedInfo:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = "SELECT * FROM RestrictedInfo WHERE  = "+str(id)
@@ -72,6 +74,6 @@ class RestrictedInfoRepository:
         fetch = cursor.fetchone()
         restrictedinfo = RestrictedInfo()
         restrictedinfo.load(fetch)
-        return str(restrictedinfo.to_json())
+        return restrictedinfo
 
     

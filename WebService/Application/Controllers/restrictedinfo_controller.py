@@ -1,9 +1,8 @@
+from Application.DI import restrictedinfo_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.restrictedinfo_repository import RestrictedInfoRepository
 from Application.Models.restrictedinfo import RestrictedInfo
-
-from Application.Abstraction.initialize import restrictedinfo_controller_init
-db = restrictedinfo_controller_init()
 
 restrictedinfo_controller_api = Blueprint('restrictedinfo_controller_api', __name__)
 
@@ -12,12 +11,12 @@ restrictedinfo_api = Blueprint('restrictedinfo_api', __name__)
 
 @restrictedinfo_controller_api.route("/api/RestrictedInfo", methods=['GET'])
 def get_restrictedinfo():
-    return db.get()
+    return jsonify(restrictedinfo_db.get())
 
 
 @restrictedinfo_controller_api.route("/api/RestrictedInfo/<int:id>", methods=['GET'])
 def get_restrictedinfo_id(id):
-    return db.get_id(id)
+    return jsonify(restrictedinfo_db.get_id(id))
 
 
 @restrictedinfo_controller_api.route("/api/RestrictedInfo", methods=['POST'])
@@ -32,7 +31,7 @@ def post_restrictedinfo():
     obj.SeniorityCode = req_data["SeniorityCode"]
 
     try:
-        db.add(obj)
+        restrictedinfo_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -41,7 +40,7 @@ def post_restrictedinfo():
 @restrictedinfo_controller_api.route("/api/RestrictedInfo/<int:id>", methods=['DELETE'])
 def delete_restrictedinfo(id):
     try:
-        db.delete(id)
+        restrictedinfo_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -59,7 +58,7 @@ def put_restrictedinfo(id):
     obj.SeniorityCode = req_data["SeniorityCode"]
 
     try:
-        db.edit(id, obj)
+        restrictedinfo_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

@@ -1,9 +1,8 @@
+from Application.DI import phonenumbers_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.phonenumbers_repository import PhoneNumbersRepository
 from Application.Models.phonenumber import PhoneNumber
-
-from Application.Abstraction.initialize import phonenumbers_controller_init
-db = phonenumbers_controller_init()
 
 phonenumbers_controller_api = Blueprint('phonenumbers_controller_api', __name__)
 
@@ -12,12 +11,12 @@ phonenumbers_api = Blueprint('phonenumbers_api', __name__)
 
 @phonenumbers_controller_api.route("/api/PhoneNumbers", methods=['GET'])
 def get_phonenumbers():
-    return db.get()
+    return jsonify(phonenumbers_db.get())
 
 
 @phonenumbers_controller_api.route("/api/PhoneNumbers/<int:id>", methods=['GET'])
 def get_phonenumbers_id(id):
-    return db.get_id(id)
+    return jsonify(phonenumbers_db.get_id(id))
 
 
 @phonenumbers_controller_api.route("/api/PhoneNumbers", methods=['POST'])
@@ -31,7 +30,7 @@ def post_phonenumber():
     obj.PhoneType = req_data["PhoneType"]
 
     try:
-        db.add(obj)
+        phonenumbers_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -40,7 +39,7 @@ def post_phonenumber():
 @phonenumbers_controller_api.route("/api/PhoneNumbers/<int:id>", methods=['DELETE'])
 def delete_phonenumber(id):
     try:
-        db.delete(id)
+        phonenumbers_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -57,7 +56,7 @@ def put_phonenumber(id):
     obj.PhoneType = req_data["PhoneType"]
 
     try:
-        db.edit(id, obj)
+        phonenumbers_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

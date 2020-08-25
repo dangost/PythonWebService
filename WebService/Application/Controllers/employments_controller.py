@@ -1,9 +1,8 @@
+from Application.DI import employments_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.employments_repository import EmploymentsRepository
 from Application.Models.employment import Employment
-
-from Application.Abstraction.initialize import employmentjobs_controller_init
-db = employmentjobs_controller_init()
 
 employments_controller_api = Blueprint('employments_controller_api', __name__)
 
@@ -12,12 +11,12 @@ employments_api = Blueprint('employments_api', __name__)
 
 @employments_controller_api.route("/api/Employments", methods=['GET'])
 def get_employments():
-    return db.get()
+    return jsonify(employments_db.get())
 
 
 @employments_controller_api.route("/api/Employments/<int:id>", methods=['GET'])
 def get_employments_id(id):
-    return db.get_id(id)
+    return jsonify(employments_db.get_id(id))
 
 
 @employments_controller_api.route("/api/Employments", methods=['POST'])
@@ -34,7 +33,7 @@ def post_employment():
     obj.Employmentcol = req_data["Employmentcol"]
 
     try:
-        db.add(obj)
+        employments_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -43,7 +42,7 @@ def post_employment():
 @employments_controller_api.route("/api/Employments/<int:id>", methods=['DELETE'])
 def delete_employment(id):
     try:
-        db.delete(id)
+        employments_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -63,7 +62,7 @@ def put_employment(id):
     obj.Employmentcol = req_data["Employmentcol"]
 
     try:
-        db.edit(id, obj)
+        employments_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

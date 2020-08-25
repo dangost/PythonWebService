@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class Country:
 
 	def __init__(self):
@@ -10,17 +14,13 @@ class Country:
 		self.NatLangCode = fetch[3]
 		self.CurrencyCode = fetch[4]
 
-	def to_json(self):
-		dictionary = {"CountryId": self.CountryId, "CountryName": self.CountryName, "CountryCode": self.CountryCode, "NatLangCode": self.NatLangCode, "CurrencyCode": self.CurrencyCode}
-		return dictionary
 
+	CountryId: int
 
-	CountryId = 0
+	CountryName: str
 
-	CountryName = ""
+	CountryCode: str
 
-	CountryCode = ""
+	NatLangCode: int
 
-	NatLangCode = 0
-
-	CurrencyCode = ""
+	CurrencyCode: str

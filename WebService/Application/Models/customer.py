@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class Customer:
 
 	def __init__(self):
@@ -10,17 +14,13 @@ class Customer:
 		self.AccountMgrId = fetch[3]
 		self.IncomeLevel = fetch[4]
 
-	def to_json(self):
-		dictionary = {"CustomId": self.CustomId, "PersonId": self.PersonId, "CustomerEmployeeId": self.CustomerEmployeeId, "AccountMgrId": self.AccountMgrId, "IncomeLevel": self.IncomeLevel}
-		return dictionary
 
+	CustomId: int
 
-	CustomId = 0
+	PersonId: int
 
-	PersonId = 0
+	CustomerEmployeeId: int
 
-	CustomerEmployeeId = 0
+	AccountMgrId: int
 
-	AccountMgrId = 0
-
-	IncomeLevel = 0
+	IncomeLevel: int

@@ -1,9 +1,8 @@
+from Application.DI import employmentjobs_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.employmentjobs_repository import EmploymentJobsRepository
 from Application.Models.employmentjobs import EmploymentJobs
-
-from Application.Abstraction.initialize import employments_controller_init
-db = employments_controller_init()
 
 employmentjobs_controller_api = Blueprint('employmentjobs_controller_api', __name__)
 
@@ -12,12 +11,12 @@ employmentjobs_api = Blueprint('employmentjobs_api', __name__)
 
 @employmentjobs_controller_api.route("/api/EmploymentJobs", methods=['GET'])
 def get_employmentjobs():
-    return db.get()
+    return jsonify(employmentjobs_db.get())
 
 
 @employmentjobs_controller_api.route("/api/EmploymentJobs/<int:id>", methods=['GET'])
 def get_employmentjobs_id(id):
-    return db.get_id(id)
+    return jsonify(employmentjobs_db.get_id(id))
 
 
 @employmentjobs_controller_api.route("/api/EmploymentJobs", methods=['POST'])
@@ -30,7 +29,7 @@ def post_employmentjobs():
     obj.MaxSalary = req_data["MaxSalary"]
 
     try:
-        db.add(obj)
+        employmentjobs_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -39,7 +38,7 @@ def post_employmentjobs():
 @employmentjobs_controller_api.route("/api/EmploymentJobs/<int:id>", methods=['DELETE'])
 def delete_employmentjobs(id):
     try:
-        db.delete(id)
+        employmentjobs_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -55,7 +54,7 @@ def put_employmentjobs(id):
     obj.MaxSalary = req_data["MaxSalary"]
 
     try:
-        db.edit(id, obj)
+        employmentjobs_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

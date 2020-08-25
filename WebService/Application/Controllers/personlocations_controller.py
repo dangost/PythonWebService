@@ -1,9 +1,8 @@
+from Application.DI import personlocations_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.personlocations_repository import PersonLocationsRepository
 from Application.Models.personlocation import PersonLocation
-
-from Application.Abstraction.initialize import personlocations_controller_init
-db = personlocations_controller_init()
 
 personlocations_controller_api = Blueprint('personlocations_controller_api', __name__)
 
@@ -12,12 +11,12 @@ personlocations_api = Blueprint('personlocations_api', __name__)
 
 @personlocations_controller_api.route("/api/PersonLocations", methods=['GET'])
 def get_personlocations():
-    return db.get()
+    return jsonify(personlocations_db.get())
 
 
 @personlocations_controller_api.route("/api/PersonLocations/<int:id>", methods=['GET'])
 def get_personlocations_id(id):
-    return db.get_id(id)
+    return jsonify(personlocations_db.get_id(id))
 
 
 @personlocations_controller_api.route("/api/PersonLocations", methods=['POST'])
@@ -30,7 +29,7 @@ def post_personlocation():
     obj.Notes = req_data["Notes"]
 
     try:
-        db.add(obj)
+        personlocations_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -39,7 +38,7 @@ def post_personlocation():
 @personlocations_controller_api.route("/api/PersonLocations/<int:id>", methods=['DELETE'])
 def delete_personlocation(id):
     try:
-        db.delete(id)
+        personlocations_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -55,7 +54,7 @@ def put_personlocation(id):
     obj.Notes = req_data["Notes"]
 
     try:
-        db.edit(id, obj)
+        personlocations_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

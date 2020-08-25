@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class Employment:
 
 	def __init__(self):
@@ -14,25 +18,21 @@ class Employment:
 		self.CommissionPercent = fetch[7]
 		self.Employmentcol = fetch[8]
 
-	def to_json(self):
-		dictionary = {"EmployeeId": self.EmployeeId, "PersonId": self.PersonId, "HRJobId": self.HRJobId, "ManagerEmployeeId": self.ManagerEmployeeId, "StartDate": self.StartDate, "EndDate": self.EndDate, "Salary": self.Salary, "CommissionPercent": self.CommissionPercent, "Employmentcol": self.Employmentcol}
-		return dictionary
 
+	EmployeeId: int
 
-	EmployeeId = 0
+	PersonId: int
 
-	PersonId = 0
+	HRJobId: int
 
-	HRJobId = 0
+	ManagerEmployeeId: int
 
-	ManagerEmployeeId = 0
+	StartDate: str
 
-	StartDate = ""
+	EndDate: str
 
-	EndDate = ""
+	Salary: str
 
-	Salary = ""
+	CommissionPercent: int
 
-	CommissionPercent = 0
-
-	Employmentcol = ""
+	Employmentcol: str

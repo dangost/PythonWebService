@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class RestrictedInfo:
 
 	def __init__(self):
@@ -12,21 +16,17 @@ class RestrictedInfo:
 		self.HireDire = fetch[5]
 		self.SeniorityCode = fetch[6]
 
-	def to_json(self):
-		dictionary = {"PersonId": self.PersonId, "DateOfBirth": self.DateOfBirth, "DateOfDeath": self.DateOfDeath, "GovernmentId": self.GovernmentId, "PassportId": self.PassportId, "HireDire": self.HireDire, "SeniorityCode": self.SeniorityCode}
-		return dictionary
 
+	PersonId: int
 
-	PersonId = 0
+	DateOfBirth: str
 
-	DateOfBirth = ""
+	DateOfDeath: str
 
-	DateOfDeath = ""
+	GovernmentId: str
 
-	GovernmentId = ""
+	PassportId: str
 
-	PassportId = ""
+	HireDire: str
 
-	HireDire = ""
-
-	SeniorityCode = 0
+	SeniorityCode: int

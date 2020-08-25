@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class Product:
 
 	def __init__(self):
@@ -17,31 +21,27 @@ class Product:
 		self.PriceCurrency = fetch[10]
 		self.CatalogURL = fetch[11]
 
-	def to_json(self):
-		dictionary = {"ProductId": self.ProductId, "ProductName": self.ProductName, "Description": self.Description, "Category": self.Category, "WeightClass": self.WeightClass, "WarrantlyPeriod": self.WarrantlyPeriod, "SupplierId": self.SupplierId, "Status": self.Status, "ListPrice": self.ListPrice, "MinimumPrice": self.MinimumPrice, "PriceCurrency": self.PriceCurrency, "CatalogURL": self.CatalogURL}
-		return dictionary
 
+	ProductId: int
 
-	ProductId = 0
+	ProductName: str
 
-	ProductName = ""
+	Description: str
 
-	Description = ""
+	Category: int
 
-	Category = 0
+	WeightClass: str
 
-	WeightClass = ""
+	WarrantlyPeriod: int
 
-	WarrantlyPeriod = 0
+	SupplierId: int
 
-	SupplierId = 0
+	Status: str
 
-	Status = ""
+	ListPrice: int
 
-	ListPrice = 0
+	MinimumPrice: int
 
-	MinimumPrice = 0
+	PriceCurrency: str
 
-	PriceCurrency = ""
-
-	CatalogURL = ""
+	CatalogURL: str

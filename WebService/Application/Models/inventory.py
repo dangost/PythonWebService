@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class Inventory:
 
 	def __init__(self):
@@ -10,17 +14,13 @@ class Inventory:
 		self.QuantityOnHand = fetch[3]
 		self.QuantityAvaliable = fetch[4]
 
-	def to_json(self):
-		dictionary = {"InventoryId": self.InventoryId, "ProductId": self.ProductId, "WarehouseId": self.WarehouseId, "QuantityOnHand": self.QuantityOnHand, "QuantityAvaliable": self.QuantityAvaliable}
-		return dictionary
 
+	InventoryId: int
 
-	InventoryId = 0
+	ProductId: int
 
-	ProductId = 0
+	WarehouseId: int
 
-	WarehouseId = 0
+	QuantityOnHand: int
 
-	QuantityOnHand = 0
-
-	QuantityAvaliable = 0
+	QuantityAvaliable: int

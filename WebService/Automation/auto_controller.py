@@ -33,24 +33,25 @@ for i in range(len(class_names)):
     for each in base[i]:
         t +="    obj."+each+" = req_data[\""+each+"\"]\n"
 
-    temp = '''from flask import Blueprint, request
+    temp = '''from Application.DI import '''+list_names[i].lower()+'''_db
+from flask import jsonify
+from flask import Blueprint, request
 from Application.Repositories.'''+list_names[i].lower()+'''_repository import '''+list_names[i]+'''Repository
 from Application.Models.'''+class_names[i].lower()+''' import '''+class_names[i]+'''
 
 '''+list_names[i].lower()+'''_controller_api = Blueprint(\''''+list_names[i].lower()+'''_controller_api\', __name__)
 
 '''+list_names[i].lower()+'''_api = Blueprint(\''''+list_names[i].lower()+'''_api\', __name__)
-db = '''+list_names[i]+'''Repository()
 
 
 @'''+list_names[i].lower()+'''_controller_api.route("/api/'''+list_names[i]+'''", methods=['GET'])
 def get_'''+list_names[i].lower()+'''():
-    return db.get()
+    return jsonify('''+list_names[i].lower()+'''_db.get())
 
 
 @'''+list_names[i].lower()+'''_controller_api.route("/api/'''+list_names[i]+'''/<int:id>", methods=['GET'])
 def get_'''+list_names[i].lower()+'''_id(id):
-    return db.get_id(id)
+    return jsonify('''+list_names[i].lower()+'''_db.get_id(id))
 
 
 @'''+list_names[i].lower()+'''_controller_api.route("/api/'''+list_names[i]+'''", methods=['POST'])
@@ -59,7 +60,7 @@ def post_'''+class_names[i].lower()+'''():
     req_data = request.get_json()
 '''+t+'''
     try:
-        db.add(obj)
+        '''+list_names[i].lower()+'''_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -68,7 +69,7 @@ def post_'''+class_names[i].lower()+'''():
 @'''+list_names[i].lower()+'''_controller_api.route("/api/'''+list_names[i]+'''/<int:id>", methods=['DELETE'])
 def delete_'''+class_names[i].lower()+'''(id):
     try:
-        db.delete(id)
+        '''+list_names[i].lower()+'''_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -80,7 +81,7 @@ def put_'''+class_names[i].lower()+'''(id):
     req_data = request.get_json()
 '''+t+'''
     try:
-        db.edit(id, obj)
+        '''+list_names[i].lower()+'''_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

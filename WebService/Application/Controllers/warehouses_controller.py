@@ -1,9 +1,8 @@
+from Application.DI import warehouses_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.warehouses_repository import WarehousesRepository
 from Application.Models.warehouse import Warehouse
-
-from Application.Abstraction.initialize import warehouses_controller_init
-db = warehouses_controller_init()
 
 warehouses_controller_api = Blueprint('warehouses_controller_api', __name__)
 
@@ -12,12 +11,12 @@ warehouses_api = Blueprint('warehouses_api', __name__)
 
 @warehouses_controller_api.route("/api/Warehouses", methods=['GET'])
 def get_warehouses():
-    return db.get()
+    return jsonify(warehouses_db.get())
 
 
 @warehouses_controller_api.route("/api/Warehouses/<int:id>", methods=['GET'])
 def get_warehouses_id(id):
-    return db.get_id(id)
+    return jsonify(warehouses_db.get_id(id))
 
 
 @warehouses_controller_api.route("/api/Warehouses", methods=['POST'])
@@ -28,7 +27,7 @@ def post_warehouse():
     obj.WarehouseName = req_data["WarehouseName"]
 
     try:
-        db.add(obj)
+        warehouses_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -37,7 +36,7 @@ def post_warehouse():
 @warehouses_controller_api.route("/api/Warehouses/<int:id>", methods=['DELETE'])
 def delete_warehouse(id):
     try:
-        db.delete(id)
+        warehouses_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -51,7 +50,7 @@ def put_warehouse(id):
     obj.WarehouseName = req_data["WarehouseName"]
 
     try:
-        db.edit(id, obj)
+        warehouses_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

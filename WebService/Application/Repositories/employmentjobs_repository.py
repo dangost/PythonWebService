@@ -2,15 +2,17 @@ from Application.Models.employmentjobs import EmploymentJobs
 import Application.BaseSupport.SQLiteSupport as Base
 import sqlite3
 from os import _exists as file_exists
+from typing import List
+from Application.Abstraction.abs_repository import ARepository
 
 
-class EmploymentJobsRepository:
+class EmploymentJobsRepository(EmploymentJobs, ARepository):
     sqlite_path = "sqlite.db"
 
     def __init__(self):
         self.load()
 
-    def load(self):
+    def load(self) -> None:
         try:
             connection = sqlite3.connect(self.sqlite_path)
             c = connection.cursor()
@@ -24,7 +26,7 @@ class EmploymentJobsRepository:
         except BaseException:
             pass
 
-    def add(self, obj):
+    def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = "INSERT INTO EmploymentJobs(CountriesCountryId, JobTitle, MinSalary, MaxSalary) VALUES (\""+str(obj.CountriesCountryId)+"\", \""+obj.JobTitle+"\", \""+str(obj.MinSalary)+"\", \""+str(obj.MaxSalary)+"\");"
@@ -33,7 +35,7 @@ class EmploymentJobsRepository:
         c.close()
         connection.close()
 
-    def delete(self, id):
+    def delete(self, id) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = "DELETE FROM EmploymentJobs WHERE HRJobId = "+str(id)+";"
@@ -42,7 +44,7 @@ class EmploymentJobsRepository:
         c.close()
         connection.close()
 
-    def edit(self, id, obj):
+    def edit(self, id, obj) -> None:
         request = "UPDATE EmploymentJobs SET CountriesCountryId = '" + str(obj.CountriesCountryId) + "',JobTitle = '" + obj.JobTitle + "',MinSalary = '" + str(obj.MinSalary) + "',MaxSalary = '" + str(obj.MaxSalary) + " WHERE HRJobId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
@@ -51,7 +53,7 @@ class EmploymentJobsRepository:
         c.close()
         connection.close()
 
-    def get(self):
+    def get(self) -> List[EmploymentJobs]:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = "SELECT HRJobId, CountriesCountryId, JobTitle, MinSalary, MaxSalary FROM EmploymentJobs"
@@ -61,10 +63,10 @@ class EmploymentJobsRepository:
         for each in fetch:
             employmentjobs = EmploymentJobs()
             employmentjobs.load(each)
-            ls.append(employmentjobs.to_json())
-        return str(ls)
+            ls.append(employmentjobs)
+        return ls
 
-    def get_id(self, id):
+    def get_id(self, id) -> EmploymentJobs:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = "SELECT * FROM EmploymentJobs WHERE HRJobId = "+str(id)
@@ -72,6 +74,6 @@ class EmploymentJobsRepository:
         fetch = cursor.fetchone()
         employmentjobs = EmploymentJobs()
         employmentjobs.load(fetch)
-        return str(employmentjobs.to_json())
+        return employmentjobs
 
     

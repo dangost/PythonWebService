@@ -5,8 +5,7 @@ id_names = ["CountryId","CustomerId","CompanyId","CustomerEmployeeId","EmployeeI
 temp = ""
 
 for i in range(len(class_names)):
-    temp += "from Application.Abstraction.initialize import "+list_names[i].lower()+"_controller_init\n"
-    temp += "db = "+list_names[i].lower()+"_controller_init()\n\n"
+    temp += "from Application.Repositories."+list_names[i].lower()+"_repository import "+list_names[i]+"Repository\n"+list_names[i].lower()+"_db: ARepository = "+list_names[i]+"Repository()\n"
 
 
 path = r"C:\Users\danil\Desktop\tttt.txt"

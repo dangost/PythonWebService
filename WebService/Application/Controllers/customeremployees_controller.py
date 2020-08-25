@@ -1,9 +1,8 @@
+from Application.DI import customeremployees_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.customeremployees_repository import CustomerEmployeesRepository
 from Application.Models.customeremployee import CustomerEmployee
-
-from Application.Abstraction.initialize import customers_controller_init
-db = customers_controller_init()
 
 customeremployees_controller_api = Blueprint('customeremployees_controller_api', __name__)
 
@@ -12,12 +11,12 @@ customeremployees_api = Blueprint('customeremployees_api', __name__)
 
 @customeremployees_controller_api.route("/api/CustomerEmployees", methods=['GET'])
 def get_customeremployees():
-    return db.get()
+    return jsonify(customeremployees_db.get())
 
 
 @customeremployees_controller_api.route("/api/CustomerEmployees/<int:id>", methods=['GET'])
 def get_customeremployees_id(id):
-    return db.get_id(id)
+    return jsonify(customeremployees_db.get_id(id))
 
 
 @customeremployees_controller_api.route("/api/CustomerEmployees", methods=['POST'])
@@ -32,7 +31,7 @@ def post_customeremployee():
     obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
 
     try:
-        db.add(obj)
+        customeremployees_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -41,7 +40,7 @@ def post_customeremployee():
 @customeremployees_controller_api.route("/api/CustomerEmployees/<int:id>", methods=['DELETE'])
 def delete_customeremployee(id):
     try:
-        db.delete(id)
+        customeremployees_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -59,7 +58,7 @@ def put_customeremployee(id):
     obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
 
     try:
-        db.edit(id, obj)
+        customeremployees_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"

@@ -2,15 +2,17 @@ from Application.Models.orderitem import OrderItem
 import Application.BaseSupport.SQLiteSupport as Base
 import sqlite3
 from os import _exists as file_exists
+from typing import List
+from Application.Abstraction.abs_repository import ARepository
 
 
-class OrderItemsRepository:
+class OrderItemsRepository(OrderItem, ARepository):
     sqlite_path = "sqlite.db"
 
     def __init__(self):
         self.load()
 
-    def load(self):
+    def load(self) -> None:
         try:
             connection = sqlite3.connect(self.sqlite_path)
             c = connection.cursor()
@@ -24,7 +26,7 @@ class OrderItemsRepository:
         except BaseException:
             pass
 
-    def add(self, obj):
+    def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = "INSERT INTO OrderItems(OrderId, ProductId, UnitPrice, Quantity) VALUES (\""+str(obj.OrderId)+"\", \""+str(obj.ProductId)+"\", \""+str(obj.UnitPrice)+"\", \""+str(obj.Quantity)+"\");"
@@ -33,7 +35,7 @@ class OrderItemsRepository:
         c.close()
         connection.close()
 
-    def delete(self, id):
+    def delete(self, id) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = "DELETE FROM OrderItems WHERE OrderItemId = "+str(id)+";"
@@ -42,7 +44,7 @@ class OrderItemsRepository:
         c.close()
         connection.close()
 
-    def edit(self, id, obj):
+    def edit(self, id, obj) -> None:
         request = "UPDATE OrderItems SET OrderId = '" + str(obj.OrderId) + "',ProductId = '" + str(obj.ProductId) + "',UnitPrice = '" + str(obj.UnitPrice) + "',Quantity = '" + str(obj.Quantity) + " WHERE OrderItemId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
@@ -51,7 +53,7 @@ class OrderItemsRepository:
         c.close()
         connection.close()
 
-    def get(self):
+    def get(self) -> List[OrderItem]:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = "SELECT OrderItemId, OrderId, ProductId, UnitPrice, Quantity FROM OrderItems"
@@ -61,10 +63,10 @@ class OrderItemsRepository:
         for each in fetch:
             orderitem = OrderItem()
             orderitem.load(each)
-            ls.append(orderitem.to_json())
-        return str(ls)
+            ls.append(orderitem)
+        return ls
 
-    def get_id(self, id):
+    def get_id(self, id) -> OrderItem:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = "SELECT * FROM OrderItems WHERE OrderItemId = "+str(id)
@@ -72,6 +74,6 @@ class OrderItemsRepository:
         fetch = cursor.fetchone()
         orderitem = OrderItem()
         orderitem.load(fetch)
-        return str(orderitem.to_json())
+        return orderitem
 
     

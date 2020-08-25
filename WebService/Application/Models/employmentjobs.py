@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class EmploymentJobs:
 
 	def __init__(self):
@@ -10,17 +14,13 @@ class EmploymentJobs:
 		self.MinSalary = fetch[3]
 		self.MaxSalary = fetch[4]
 
-	def to_json(self):
-		dictionary = {"HRJobId": self.HRJobId, "CountriesCountryId": self.CountriesCountryId, "JobTitle": self.JobTitle, "MinSalary": self.MinSalary, "MaxSalary": self.MaxSalary}
-		return dictionary
 
+	HRJobId: int
 
-	HRJobId = 0
+	CountriesCountryId: int
 
-	CountriesCountryId = 0
+	JobTitle: str
 
-	JobTitle = ""
+	MinSalary: int
 
-	MinSalary = 0
-
-	MaxSalary = 0
+	MaxSalary: int

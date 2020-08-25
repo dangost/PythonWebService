@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class CustomerEmployee:
 
 	def __init__(self):
@@ -12,21 +16,17 @@ class CustomerEmployee:
 		self.CreditLimit = fetch[5]
 		self.CreditLimitCurrency = fetch[6]
 
-	def to_json(self):
-		dictionary = {"CustomerEmployeeId": self.CustomerEmployeeId, "CompanyId": self.CompanyId, "BadgeNumber": self.BadgeNumber, "JobTitle": self.JobTitle, "Department": self.Department, "CreditLimit": self.CreditLimit, "CreditLimitCurrency": self.CreditLimitCurrency}
-		return dictionary
 
+	CustomerEmployeeId: int
 
-	CustomerEmployeeId = 0
+	CompanyId: int
 
-	CompanyId = 0
+	BadgeNumber: str
 
-	BadgeNumber = ""
+	JobTitle: str
 
-	JobTitle = ""
+	Department: str
 
-	Department = ""
+	CreditLimit: int
 
-	CreditLimit = 0
-
-	CreditLimitCurrency = 0
+	CreditLimitCurrency: int

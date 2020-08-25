@@ -63,15 +63,17 @@ for i in range(len(class_names)):
 import Application.BaseSupport.SQLiteSupport as Base
 import sqlite3
 from os import _exists as file_exists
+from typing import List
+from Application.Abstraction.abs_repository import ARepository
 
 
-class '''+list_names[i]+'''Repository:
+class '''+list_names[i]+'''Repository('''+class_names[i]+''', ARepository):
     sqlite_path = "sqlite.db"
 
     def __init__(self):
         self.load()
 
-    def load(self):
+    def load(self) -> None:
         try:
             connection = sqlite3.connect(self.sqlite_path)
             c = connection.cursor()
@@ -85,7 +87,7 @@ class '''+list_names[i]+'''Repository:
         except BaseException:
             pass
 
-    def add(self, obj):
+    def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = '''+insert+'''
@@ -94,7 +96,7 @@ class '''+list_names[i]+'''Repository:
         c.close()
         connection.close()
 
-    def delete(self, id):
+    def delete(self, id) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         request = '''+delete+'''
@@ -103,7 +105,7 @@ class '''+list_names[i]+'''Repository:
         c.close()
         connection.close()
 
-    def edit(self, id, obj):
+    def edit(self, id, obj) -> None:
         request = '''+update+'''
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
@@ -112,7 +114,7 @@ class '''+list_names[i]+'''Repository:
         c.close()
         connection.close()
 
-    def get(self):
+    def get(self) -> List['''+class_names[i]+''']:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = '''+get+'''
@@ -122,10 +124,10 @@ class '''+list_names[i]+'''Repository:
         for each in fetch:
             '''+class_names[i].lower()+''' = '''+class_names[i]+'''()
             '''+class_names[i].lower()+'''.load(each)
-            ls.append('''+class_names[i].lower()+'''.to_json())
-        return str(ls)
+            ls.append('''+class_names[i].lower()+''')
+        return ls
 
-    def get_id(self, id):
+    def get_id(self, id) -> '''+class_names[i]+''':
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
         request = '''+get_id+'''
@@ -133,7 +135,7 @@ class '''+list_names[i]+'''Repository:
         fetch = cursor.fetchone()
         '''+class_names[i].lower()+''' = '''+class_names[i]+'''()
         '''+class_names[i].lower()+'''.load(fetch)
-        return str('''+class_names[i].lower()+'''.to_json())
+        return '''+class_names[i].lower()+'''
 
     '''
 

@@ -1,9 +1,8 @@
+from Application.DI import inventories_db
+from flask import jsonify
 from flask import Blueprint, request
 from Application.Repositories.inventories_repository import InventoriesRepository
 from Application.Models.inventory import Inventory
-
-from Application.Abstraction.initialize import inventories_controller_init
-db = inventories_controller_init()
 
 inventories_controller_api = Blueprint('inventories_controller_api', __name__)
 
@@ -12,12 +11,12 @@ inventories_api = Blueprint('inventories_api', __name__)
 
 @inventories_controller_api.route("/api/Inventories", methods=['GET'])
 def get_inventories():
-    return db.get()
+    return jsonify(inventories_db.get())
 
 
 @inventories_controller_api.route("/api/Inventories/<int:id>", methods=['GET'])
 def get_inventories_id(id):
-    return db.get_id(id)
+    return jsonify(inventories_db.get_id(id))
 
 
 @inventories_controller_api.route("/api/Inventories", methods=['POST'])
@@ -30,7 +29,7 @@ def post_inventory():
     obj.QuantityAvaliable = req_data["QuantityAvaliable"]
 
     try:
-        db.add(obj)
+        inventories_db.add(obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -39,7 +38,7 @@ def post_inventory():
 @inventories_controller_api.route("/api/Inventories/<int:id>", methods=['DELETE'])
 def delete_inventory(id):
     try:
-        db.delete(id)
+        inventories_db.delete(id)
     except BaseException:
         return "Bad Request!"
     return "OK"
@@ -55,7 +54,7 @@ def put_inventory(id):
     obj.QuantityAvaliable = req_data["QuantityAvaliable"]
 
     try:
-        db.edit(id, obj)
+        inventories_db.edit(id, obj)
     except BaseException:
         return "Bad Request!"
     return "OK"
