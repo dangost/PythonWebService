@@ -2,10 +2,12 @@ from flask import Blueprint, request
 from Application.Repositories.restrictedinfo_repository import RestrictedInfoRepository
 from Application.Models.restrictedinfo import RestrictedInfo
 
+from Application.Abstraction.initialize import restrictedinfo_controller_init
+db = restrictedinfo_controller_init()
+
 restrictedinfo_controller_api = Blueprint('restrictedinfo_controller_api', __name__)
 
 restrictedinfo_api = Blueprint('restrictedinfo_api', __name__)
-db = RestrictedInfoRepository()
 
 
 @restrictedinfo_controller_api.route("/api/RestrictedInfo", methods=['GET'])

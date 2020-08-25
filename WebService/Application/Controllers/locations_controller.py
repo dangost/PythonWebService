@@ -2,10 +2,12 @@ from flask import Blueprint, request
 from Application.Repositories.locations_repository import LocationsRepository
 from Application.Models.location import Location
 
+from Application.Abstraction.initialize import locations_controller_init
+db = locations_controller_init()
+
 locations_controller_api = Blueprint('locations_controller_api', __name__)
 
 locations_api = Blueprint('locations_api', __name__)
-db = LocationsRepository()
 
 
 @locations_controller_api.route("/api/Locations", methods=['GET'])

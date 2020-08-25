@@ -2,10 +2,12 @@ from flask import Blueprint, request
 from Application.Repositories.customeremployees_repository import CustomerEmployeesRepository
 from Application.Models.customeremployee import CustomerEmployee
 
+from Application.Abstraction.initialize import customers_controller_init
+db = customers_controller_init()
+
 customeremployees_controller_api = Blueprint('customeremployees_controller_api', __name__)
 
 customeremployees_api = Blueprint('customeremployees_api', __name__)
-db = CustomerEmployeesRepository()
 
 
 @customeremployees_controller_api.route("/api/CustomerEmployees", methods=['GET'])

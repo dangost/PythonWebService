@@ -1,14 +1,15 @@
 from flask import Blueprint, request
 from Application.Repositories.countries_repository import CountriesRepository
 from Application.Models.country import Country
-from Application.Abstraction.abs_countries_repository import ARepository
-
+from Application.Abstraction.abs_repository import ARepository
+from Application.Abstraction.initialize import countries_controller_init
+db = countries_controller_init()
 
 countries_controller_api = Blueprint('countries_controller_api', __name__)
 
 countries_api = Blueprint('countries_api', __name__)
 
-db = ARepository(CountriesRepository)
+db = countries_controller_init()
 
 
 @countries_controller_api.route("/api/Countries", methods=['GET'])

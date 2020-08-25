@@ -2,10 +2,12 @@ from flask import Blueprint, request
 from Application.Repositories.inventories_repository import InventoriesRepository
 from Application.Models.inventory import Inventory
 
+from Application.Abstraction.initialize import inventories_controller_init
+db = inventories_controller_init()
+
 inventories_controller_api = Blueprint('inventories_controller_api', __name__)
 
 inventories_api = Blueprint('inventories_api', __name__)
-db = InventoriesRepository()
 
 
 @inventories_controller_api.route("/api/Inventories", methods=['GET'])

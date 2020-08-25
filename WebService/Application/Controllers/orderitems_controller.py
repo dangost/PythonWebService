@@ -2,10 +2,12 @@ from flask import Blueprint, request
 from Application.Repositories.orderitems_repository import OrderItemsRepository
 from Application.Models.orderitem import OrderItem
 
+from Application.Abstraction.initialize import orderitems_controller_init
+db = orderitems_controller_init()
+
 orderitems_controller_api = Blueprint('orderitems_controller_api', __name__)
 
 orderitems_api = Blueprint('orderitems_api', __name__)
-db = OrderItemsRepository()
 
 
 @orderitems_controller_api.route("/api/OrderItems", methods=['GET'])

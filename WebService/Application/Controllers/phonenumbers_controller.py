@@ -2,10 +2,12 @@ from flask import Blueprint, request
 from Application.Repositories.phonenumbers_repository import PhoneNumbersRepository
 from Application.Models.phonenumber import PhoneNumber
 
+from Application.Abstraction.initialize import phonenumbers_controller_init
+db = phonenumbers_controller_init()
+
 phonenumbers_controller_api = Blueprint('phonenumbers_controller_api', __name__)
 
 phonenumbers_api = Blueprint('phonenumbers_api', __name__)
-db = PhoneNumbersRepository()
 
 
 @phonenumbers_controller_api.route("/api/PhoneNumbers", methods=['GET'])

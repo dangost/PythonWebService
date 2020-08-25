@@ -2,10 +2,12 @@ from flask import Blueprint, request
 from Application.Repositories.employments_repository import EmploymentsRepository
 from Application.Models.employment import Employment
 
+from Application.Abstraction.initialize import employmentjobs_controller_init
+db = employmentjobs_controller_init()
+
 employments_controller_api = Blueprint('employments_controller_api', __name__)
 
 employments_api = Blueprint('employments_api', __name__)
-db = EmploymentsRepository()
 
 
 @employments_controller_api.route("/api/Employments", methods=['GET'])
