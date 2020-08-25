@@ -1,0 +1,36 @@
+from Application.Repositories.countries_repository import CountriesRepository
+from Application.Repositories.customers_repository import CustomersRepository
+from Application.Repositories.customercompanies_repository import CustomerCompaniesRepository
+from Application.Repositories.customeremployees_repository import CustomerEmployeesRepository
+from Application.Repositories.employments_repository import EmploymentsRepository
+from Application.Repositories.employmentjobs_repository import EmploymentJobsRepository
+from Application.Repositories.inventories_repository import InventoriesRepository
+from Application.Repositories.locations_repository import LocationsRepository
+from Application.Repositories.orderitems_repository import OrderItemsRepository
+from Application.Repositories.orders_repository import OrdersRepository
+from Application.Repositories.people_repository import PeopleRepository
+from Application.Repositories.personlocations_repository import PersonLocationsRepository
+from Application.Repositories.phonenumbers_repository import PhoneNumbersRepository
+from Application.Repositories.products_repository import ProductsRepository
+from Application.Repositories.restrictedinfo_repository import RestrictedInfoRepository
+from Application.Repositories.warehouses_repository import WarehousesRepository
+
+
+
+
+	countries_controller_api: CountriesRepository,
+	customers_controller_api: CustomersRepository,
+	customercompanies_controller_api: CustomerCompaniesRepository,
+	customeremployees_controller_api: CustomerEmployeesRepository,
+	employments_controller_api: EmploymentsRepository,
+	employmentjobs_controller_api: EmploymentJobsRepository,
+	inventories_controller_api: InventoriesRepository,
+	locations_controller_api: LocationsRepository,
+	orderitems_controller_api: OrderItemsRepository,
+	orders_controller_api: OrdersRepository,
+	people_controller_api: PeopleRepository,
+	personlocations_controller_api: PersonLocationsRepository,
+	phonenumbers_controller_api: PhoneNumbersRepository,
+	products_controller_api: ProductsRepository,
+	restrictedinfo_controller_api: RestrictedInfoRepository,
+	warehouses_controller_api: WarehousesRepository,

@@ -20,12 +20,26 @@ base = [
     {"PersonId": "int", "DateOfBirth": "string", "DateOfDeath": "string", "GovernmentId": "string", "PassportId": "string", "HireDire": "string", "SeniorityCode": "int"},
     {"WarehouseId": "int", "LocationId": "int", "WarehouseName": "string"}
 ]
+pathh = "output.txt"
+tempp = ""
+fi = open(pathh, 'w')
+for i in range(len(class_names)):
+    tempp += "from Application.Repositories."+list_names[i].lower()+"_repository import "+list_names[i]+"Repository\n"
+
+tempp += "\n\n\n\n"
+for i in range(len(list_names)):
+    #"countries_controller": "countries_repository"
+    tempp += "\t"+list_names[i].lower()+"_controller_api: "+list_names[i]+"Repository,\n"
+
+fi.write(tempp)
 
 path = r"D:\Projects\Regula\Web\PythonWebService\WebService\Application\Models"
 
 for i in range(len(class_names)):
     new_path = path + "\\"+class_names[i].lower()+".py"
     file = open(new_path, 'w')
+
+
 
     temp_class = "class " + class_names[i] + ":\n\n"
     temp_class += "\tdef __init__(self):\n\t\tpass\n\n"

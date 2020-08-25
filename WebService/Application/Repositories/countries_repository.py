@@ -1,4 +1,5 @@
 from Application.Models.country import Country
+from Application.Abstraction.abs_countries_repository import ARepository
 import Application.BaseSupport.SQLiteSupport as Base
 import sqlite3
 from os import _exists as file_exists
