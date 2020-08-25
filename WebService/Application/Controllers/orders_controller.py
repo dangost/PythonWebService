@@ -25,7 +25,6 @@ def post_orders():
     obj = Orders()
     req_data = request.get_json()
     try:
-        obj.CustomerId = req_data["CustomerId"]
         obj.SalesRepId = req_data["SalesRepId"]
         obj.OrderDate = req_data["OrderDate"]
         obj.OrderCode = req_data["OrderCode"]
@@ -36,7 +35,7 @@ def post_orders():
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CustomerId, obj.SalesRepId, obj.OrderDate, obj.OrderCode, obj.OrderStatus, obj.OrderTotal, obj.OrderCurrency, obj.PromotionCode]
+    ls = [obj.SalesRepId, obj.OrderDate, obj.OrderCode, obj.OrderStatus, obj.OrderTotal, obj.OrderCurrency, obj.PromotionCode]
     if not validation(ls): return "Invalid data"
 
 

@@ -40,6 +40,7 @@ def post_country():
         countries_db.add(obj)
     except BaseException:
         return "Bad Request!"
+
     return "OK"
 
 

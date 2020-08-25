@@ -31,7 +31,7 @@ class Employment:
 
 	EndDate: str
 
-	Salary: str
+	Salary: int
 
 	CommissionPercent: int
 

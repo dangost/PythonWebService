@@ -1,0 +1,112 @@
+Countries 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+Customers 
+Valid: Denied
+
+Invalid: Accepted
+
+
+
+CustomerCompanies 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+CustomerEmployees 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+Employments 
+Valid: Denied
+
+Invalid: Accepted
+
+
+
+EmploymentJobs 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+Inventories 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+Locations 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+OrderItems 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+Orders 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+People 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+PersonLocations 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+PhoneNumbers 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+Products 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+RestrictedInfo 
+Valid: Accepted
+
+Invalid: Accepted
+
+
+
+Warehouses 
+Valid: Denied
+
+Invalid: Accepted
+
+
+

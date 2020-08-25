@@ -25,14 +25,13 @@ def post_inventory():
     obj = Inventory()
     req_data = request.get_json()
     try:
-        obj.ProductId = req_data["ProductId"]
         obj.WarehouseId = req_data["WarehouseId"]
         obj.QuantityOnHand = req_data["QuantityOnHand"]
         obj.QuantityAvaliable = req_data["QuantityAvaliable"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.ProductId, obj.WarehouseId, obj.QuantityOnHand, obj.QuantityAvaliable]
+    ls = [obj.WarehouseId, obj.QuantityOnHand, obj.QuantityAvaliable]
     if not validation(ls): return "Invalid data"
 
 
@@ -57,15 +56,15 @@ def put_inventory(id):
     obj = Inventory()
     req_data = request.get_json()
     try:
-        obj.ProductId = req_data["ProductId"]
         obj.WarehouseId = req_data["WarehouseId"]
         obj.QuantityOnHand = req_data["QuantityOnHand"]
         obj.QuantityAvaliable = req_data["QuantityAvaliable"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.ProductId, obj.WarehouseId, obj.QuantityOnHand, obj.QuantityAvaliable]
+    ls = [obj.WarehouseId, obj.QuantityOnHand, obj.QuantityAvaliable]
     if not validation(ls): return "Invalid data"
+
     try:
         inventories_db.edit(id, obj)
     except BaseException:

@@ -34,6 +34,7 @@ def post_restrictedinfo():
 
     except BaseException:
         return "Invalid data"
+
     ls = [obj.DateOfBirth, obj.DateOfDeath, obj.GovernmentId, obj.PassportId, obj.HireDire, obj.SeniorityCode]
     if not validation(ls): return "Invalid data"
 

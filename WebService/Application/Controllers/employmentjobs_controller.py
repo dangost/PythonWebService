@@ -25,14 +25,13 @@ def post_employmentjobs():
     obj = EmploymentJobs()
     req_data = request.get_json()
     try:
-        obj.CountriesCountryId = req_data["CountriesCountryId"]
         obj.JobTitle = req_data["JobTitle"]
         obj.MinSalary = req_data["MinSalary"]
         obj.MaxSalary = req_data["MaxSalary"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CountriesCountryId, obj.JobTitle, obj.MinSalary, obj.MaxSalary]
+    ls = [obj.JobTitle, obj.MinSalary, obj.MaxSalary]
     if not validation(ls): return "Invalid data"
 
 
@@ -57,14 +56,13 @@ def put_employmentjobs(id):
     obj = EmploymentJobs()
     req_data = request.get_json()
     try:
-        obj.CountriesCountryId = req_data["CountriesCountryId"]
         obj.JobTitle = req_data["JobTitle"]
         obj.MinSalary = req_data["MinSalary"]
         obj.MaxSalary = req_data["MaxSalary"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CountriesCountryId, obj.JobTitle, obj.MinSalary, obj.MaxSalary]
+    ls = [obj.JobTitle, obj.MinSalary, obj.MaxSalary]
     if not validation(ls): return "Invalid data"
     try:
         employmentjobs_db.edit(id, obj)

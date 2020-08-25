@@ -25,14 +25,12 @@ def post_orderitem():
     obj = OrderItem()
     req_data = request.get_json()
     try:
-        obj.OrderId = req_data["OrderId"]
-        obj.ProductId = req_data["ProductId"]
         obj.UnitPrice = req_data["UnitPrice"]
         obj.Quantity = req_data["Quantity"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.OrderId, obj.ProductId, obj.UnitPrice, obj.Quantity]
+    ls = [obj.UnitPrice, obj.Quantity]
     if not validation(ls): return "Invalid data"
 
 
@@ -57,14 +55,12 @@ def put_orderitem(id):
     obj = OrderItem()
     req_data = request.get_json()
     try:
-        obj.OrderId = req_data["OrderId"]
-        obj.ProductId = req_data["ProductId"]
         obj.UnitPrice = req_data["UnitPrice"]
         obj.Quantity = req_data["Quantity"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.OrderId, obj.ProductId, obj.UnitPrice, obj.Quantity]
+    ls = [obj.UnitPrice, obj.Quantity]
     if not validation(ls): return "Invalid data"
     try:
         orderitems_db.edit(id, obj)

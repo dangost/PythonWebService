@@ -25,14 +25,13 @@ def post_personlocation():
     obj = PersonLocation()
     req_data = request.get_json()
     try:
-        obj.LocationsLocationsId = req_data["LocationsLocationsId"]
         obj.SubAdress = req_data["SubAdress"]
         obj.LocationUsage = req_data["LocationUsage"]
         obj.Notes = req_data["Notes"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.LocationsLocationsId, obj.SubAdress, obj.LocationUsage, obj.Notes]
+    ls = [obj.SubAdress, obj.LocationUsage, obj.Notes]
     if not validation(ls): return "Invalid data"
 
 
@@ -57,15 +56,16 @@ def put_personlocation(id):
     obj = PersonLocation()
     req_data = request.get_json()
     try:
-        obj.LocationsLocationsId = req_data["LocationsLocationsId"]
         obj.SubAdress = req_data["SubAdress"]
         obj.LocationUsage = req_data["LocationUsage"]
         obj.Notes = req_data["Notes"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.LocationsLocationsId, obj.SubAdress, obj.LocationUsage, obj.Notes]
+    ls = [obj.SubAdress, obj.LocationUsage, obj.Notes]
     if not validation(ls): return "Invalid data"
+
+
     try:
         personlocations_db.edit(id, obj)
     except BaseException:

@@ -35,11 +35,10 @@ def post_location():
         obj.LocationTypeCode = req_data["LocationTypeCode"]
         obj.Description = req_data["Description"]
         obj.ShippingNotes = req_data["ShippingNotes"]
-        obj.CountriesCountryId = req_data["CountriesCountryId"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CountryId, obj.AdressLine1, obj.AdressLine2, obj.City, obj.State, obj.District, obj.PostalCode, obj.LocationTypeCode, obj.Description, obj.ShippingNotes, obj.CountriesCountryId]
+    ls = [obj.CountryId, obj.AdressLine1, obj.AdressLine2, obj.City, obj.State, obj.District, obj.PostalCode, obj.LocationTypeCode, obj.Description, obj.ShippingNotes]
     if not validation(ls): return "Invalid data"
 
 
@@ -74,11 +73,10 @@ def put_location(id):
         obj.LocationTypeCode = req_data["LocationTypeCode"]
         obj.Description = req_data["Description"]
         obj.ShippingNotes = req_data["ShippingNotes"]
-        obj.CountriesCountryId = req_data["CountriesCountryId"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CountryId, obj.AdressLine1, obj.AdressLine2, obj.City, obj.State, obj.District, obj.PostalCode, obj.LocationTypeCode, obj.Description, obj.ShippingNotes, obj.CountriesCountryId]
+    ls = [obj.CountryId, obj.AdressLine1, obj.AdressLine2, obj.City, obj.State, obj.District, obj.PostalCode, obj.LocationTypeCode, obj.Description, obj.ShippingNotes]
     if not validation(ls): return "Invalid data"
     try:
         locations_db.edit(id, obj)

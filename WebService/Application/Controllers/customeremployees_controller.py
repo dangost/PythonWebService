@@ -25,7 +25,6 @@ def post_customeremployee():
     obj = CustomerEmployee()
     req_data = request.get_json()
     try:
-        obj.CompanyId = req_data["CompanyId"]
         obj.BadgeNumber = req_data["BadgeNumber"]
         obj.JobTitle = req_data["JobTitle"]
         obj.Department = req_data["Department"]
@@ -34,9 +33,8 @@ def post_customeremployee():
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CompanyId, obj.BadgeNumber, obj.JobTitle, obj.Department, obj.CreditLimit, obj.CreditLimitCurrency]
+    ls = [obj.BadgeNumber, obj.JobTitle, obj.Department, obj.CreditLimit, obj.CreditLimitCurrency]
     if not validation(ls): return "Invalid data"
-
 
     try:
         customeremployees_db.add(obj)
@@ -59,7 +57,6 @@ def put_customeremployee(id):
     obj = CustomerEmployee()
     req_data = request.get_json()
     try:
-        obj.CompanyId = req_data["CompanyId"]
         obj.BadgeNumber = req_data["BadgeNumber"]
         obj.JobTitle = req_data["JobTitle"]
         obj.Department = req_data["Department"]
@@ -68,7 +65,7 @@ def put_customeremployee(id):
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CompanyId, obj.BadgeNumber, obj.JobTitle, obj.Department, obj.CreditLimit, obj.CreditLimitCurrency]
+    ls = [obj.BadgeNumber, obj.JobTitle, obj.Department, obj.CreditLimit, obj.CreditLimitCurrency]
     if not validation(ls): return "Invalid data"
     try:
         customeremployees_db.edit(id, obj)

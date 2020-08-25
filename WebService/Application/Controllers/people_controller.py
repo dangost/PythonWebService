@@ -35,6 +35,7 @@ def post_person():
 
     except BaseException:
         return "Invalid data"
+
     ls = [obj.FirstName, obj.LastName, obj.MiddleName, obj.Nickname, obj.NatLangCode, obj.CultureCode, obj.Gender]
     if not validation(ls): return "Invalid data"
 

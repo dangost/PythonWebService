@@ -54,6 +54,7 @@ def delete_customercompany(id):
 @customercompanies_controller_api.route("/api/CustomerCompanies/<int:id>", methods=['PUT'])
 def put_customercompany(id):
     obj = CustomerCompany()
+
     req_data = request.get_json()
     try:
         obj.CompanyName = req_data["CompanyName"]

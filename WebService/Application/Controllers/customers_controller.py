@@ -25,16 +25,13 @@ def post_customer():
     obj = Customer()
     req_data = request.get_json()
     try:
-        obj.PersonId = req_data["PersonId"]
-        obj.CustomEmployeeId = req_data["CustomEmployeeId"]
         obj.AccountMgrId = req_data["AccountMgrId"]
         obj.IncomeLevel = req_data["IncomeLevel"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.PersonId, obj.CustomEmployeeId, obj.AccountMgrId, obj.IncomeLevel]
+    ls = [obj.AccountMgrId, obj.IncomeLevel]
     if not validation(ls): return "Invalid data"
-
 
     try:
         customers_db.add(obj)
@@ -57,14 +54,12 @@ def put_customer(id):
     obj = Customer()
     req_data = request.get_json()
     try:
-        obj.PersonId = req_data["PersonId"]
-        obj.CustomEmployeeId = req_data["CustomEmployeeId"]
         obj.AccountMgrId = req_data["AccountMgrId"]
         obj.IncomeLevel = req_data["IncomeLevel"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.PersonId, obj.CustomEmployeeId, obj.AccountMgrId, obj.IncomeLevel]
+    ls = [obj.AccountMgrId, obj.IncomeLevel]
     if not validation(ls): return "Invalid data"
     try:
         customers_db.edit(id, obj)

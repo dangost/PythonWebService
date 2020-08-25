@@ -25,12 +25,11 @@ def post_warehouse():
     obj = Warehouse()
     req_data = request.get_json()
     try:
-        obj.LocationId = req_data["LocationId"]
         obj.WarehouseName = req_data["WarehouseName"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.LocationId, obj.WarehouseName]
+    ls = [obj.WarehouseName]
     if not validation(ls): return "Invalid data"
 
 
@@ -55,13 +54,13 @@ def put_warehouse(id):
     obj = Warehouse()
     req_data = request.get_json()
     try:
-        obj.LocationId = req_data["LocationId"]
         obj.WarehouseName = req_data["WarehouseName"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.LocationId, obj.WarehouseName]
+    ls = [obj.WarehouseName]
     if not validation(ls): return "Invalid data"
+
     try:
         warehouses_db.edit(id, obj)
     except BaseException:
