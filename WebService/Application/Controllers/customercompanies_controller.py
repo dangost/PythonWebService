@@ -1,6 +1,7 @@
 from Application.DI import customercompanies_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.customercompanies_repository import CustomerCompaniesRepository
 from Application.Models.customercompany import CustomerCompany
 
@@ -23,9 +24,16 @@ def get_customercompanies_id(id):
 def post_customercompany():
     obj = CustomerCompany()
     req_data = request.get_json()
-    obj.CompanyName = req_data["CompanyName"]
-    obj.CompanyCreditLimit = req_data["CompanyCreditLimit"]
-    obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
+    try:
+        obj.CompanyName = req_data["CompanyName"]
+        obj.CompanyCreditLimit = req_data["CompanyCreditLimit"]
+        obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CompanyName, obj.CompanyCreditLimit, obj.CreditLimitCurrency]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         customercompanies_db.add(obj)
@@ -47,10 +55,15 @@ def delete_customercompany(id):
 def put_customercompany(id):
     obj = CustomerCompany()
     req_data = request.get_json()
-    obj.CompanyName = req_data["CompanyName"]
-    obj.CompanyCreditLimit = req_data["CompanyCreditLimit"]
-    obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
+    try:
+        obj.CompanyName = req_data["CompanyName"]
+        obj.CompanyCreditLimit = req_data["CompanyCreditLimit"]
+        obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CompanyName, obj.CompanyCreditLimit, obj.CreditLimitCurrency]
+    if not validation(ls): return "Invalid data"
     try:
         customercompanies_db.edit(id, obj)
     except BaseException:

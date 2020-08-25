@@ -1,6 +1,7 @@
 from Application.DI import employments_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.employments_repository import EmploymentsRepository
 from Application.Models.employment import Employment
 
@@ -23,14 +24,21 @@ def get_employments_id(id):
 def post_employment():
     obj = Employment()
     req_data = request.get_json()
-    obj.PersonId = req_data["PersonId"]
-    obj.HRJobId = req_data["HRJobId"]
-    obj.ManagerEmployeeId = req_data["ManagerEmployeeId"]
-    obj.StartDate = req_data["StartDate"]
-    obj.EndDate = req_data["EndDate"]
-    obj.Salary = req_data["Salary"]
-    obj.CommissionPercent = req_data["CommissionPercent"]
-    obj.Employmentcol = req_data["Employmentcol"]
+    try:
+        obj.PersonId = req_data["PersonId"]
+        obj.HRJobId = req_data["HRJobId"]
+        obj.ManagerEmployeeId = req_data["ManagerEmployeeId"]
+        obj.StartDate = req_data["StartDate"]
+        obj.EndDate = req_data["EndDate"]
+        obj.Salary = req_data["Salary"]
+        obj.CommissionPercent = req_data["CommissionPercent"]
+        obj.Employmentcol = req_data["Employmentcol"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.PersonId, obj.HRJobId, obj.ManagerEmployeeId, obj.StartDate, obj.EndDate, obj.Salary, obj.CommissionPercent, obj.Employmentcol]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         employments_db.add(obj)
@@ -52,15 +60,20 @@ def delete_employment(id):
 def put_employment(id):
     obj = Employment()
     req_data = request.get_json()
-    obj.PersonId = req_data["PersonId"]
-    obj.HRJobId = req_data["HRJobId"]
-    obj.ManagerEmployeeId = req_data["ManagerEmployeeId"]
-    obj.StartDate = req_data["StartDate"]
-    obj.EndDate = req_data["EndDate"]
-    obj.Salary = req_data["Salary"]
-    obj.CommissionPercent = req_data["CommissionPercent"]
-    obj.Employmentcol = req_data["Employmentcol"]
+    try:
+        obj.PersonId = req_data["PersonId"]
+        obj.HRJobId = req_data["HRJobId"]
+        obj.ManagerEmployeeId = req_data["ManagerEmployeeId"]
+        obj.StartDate = req_data["StartDate"]
+        obj.EndDate = req_data["EndDate"]
+        obj.Salary = req_data["Salary"]
+        obj.CommissionPercent = req_data["CommissionPercent"]
+        obj.Employmentcol = req_data["Employmentcol"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.PersonId, obj.HRJobId, obj.ManagerEmployeeId, obj.StartDate, obj.EndDate, obj.Salary, obj.CommissionPercent, obj.Employmentcol]
+    if not validation(ls): return "Invalid data"
     try:
         employments_db.edit(id, obj)
     except BaseException:

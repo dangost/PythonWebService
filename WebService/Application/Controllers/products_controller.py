@@ -1,6 +1,7 @@
 from Application.DI import products_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.products_repository import ProductsRepository
 from Application.Models.product import Product
 
@@ -23,17 +24,24 @@ def get_products_id(id):
 def post_product():
     obj = Product()
     req_data = request.get_json()
-    obj.ProductName = req_data["ProductName"]
-    obj.Description = req_data["Description"]
-    obj.Category = req_data["Category"]
-    obj.WeightClass = req_data["WeightClass"]
-    obj.WarrantlyPeriod = req_data["WarrantlyPeriod"]
-    obj.SupplierId = req_data["SupplierId"]
-    obj.Status = req_data["Status"]
-    obj.ListPrice = req_data["ListPrice"]
-    obj.MinimumPrice = req_data["MinimumPrice"]
-    obj.PriceCurrency = req_data["PriceCurrency"]
-    obj.CatalogURL = req_data["CatalogURL"]
+    try:
+        obj.ProductName = req_data["ProductName"]
+        obj.Description = req_data["Description"]
+        obj.Category = req_data["Category"]
+        obj.WeightClass = req_data["WeightClass"]
+        obj.WarrantlyPeriod = req_data["WarrantlyPeriod"]
+        obj.SupplierId = req_data["SupplierId"]
+        obj.Status = req_data["Status"]
+        obj.ListPrice = req_data["ListPrice"]
+        obj.MinimumPrice = req_data["MinimumPrice"]
+        obj.PriceCurrency = req_data["PriceCurrency"]
+        obj.CatalogURL = req_data["CatalogURL"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.ProductName, obj.Description, obj.Category, obj.WeightClass, obj.WarrantlyPeriod, obj.SupplierId, obj.Status, obj.ListPrice, obj.MinimumPrice, obj.PriceCurrency, obj.CatalogURL]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         products_db.add(obj)
@@ -55,18 +63,23 @@ def delete_product(id):
 def put_product(id):
     obj = Product()
     req_data = request.get_json()
-    obj.ProductName = req_data["ProductName"]
-    obj.Description = req_data["Description"]
-    obj.Category = req_data["Category"]
-    obj.WeightClass = req_data["WeightClass"]
-    obj.WarrantlyPeriod = req_data["WarrantlyPeriod"]
-    obj.SupplierId = req_data["SupplierId"]
-    obj.Status = req_data["Status"]
-    obj.ListPrice = req_data["ListPrice"]
-    obj.MinimumPrice = req_data["MinimumPrice"]
-    obj.PriceCurrency = req_data["PriceCurrency"]
-    obj.CatalogURL = req_data["CatalogURL"]
+    try:
+        obj.ProductName = req_data["ProductName"]
+        obj.Description = req_data["Description"]
+        obj.Category = req_data["Category"]
+        obj.WeightClass = req_data["WeightClass"]
+        obj.WarrantlyPeriod = req_data["WarrantlyPeriod"]
+        obj.SupplierId = req_data["SupplierId"]
+        obj.Status = req_data["Status"]
+        obj.ListPrice = req_data["ListPrice"]
+        obj.MinimumPrice = req_data["MinimumPrice"]
+        obj.PriceCurrency = req_data["PriceCurrency"]
+        obj.CatalogURL = req_data["CatalogURL"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.ProductName, obj.Description, obj.Category, obj.WeightClass, obj.WarrantlyPeriod, obj.SupplierId, obj.Status, obj.ListPrice, obj.MinimumPrice, obj.PriceCurrency, obj.CatalogURL]
+    if not validation(ls): return "Invalid data"
     try:
         products_db.edit(id, obj)
     except BaseException:

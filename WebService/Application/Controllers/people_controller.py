@@ -1,6 +1,7 @@
 from Application.DI import people_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.people_repository import PeopleRepository
 from Application.Models.person import Person
 
@@ -23,13 +24,20 @@ def get_people_id(id):
 def post_person():
     obj = Person()
     req_data = request.get_json()
-    obj.FirstName = req_data["FirstName"]
-    obj.LastName = req_data["LastName"]
-    obj.MiddleName = req_data["MiddleName"]
-    obj.Nickname = req_data["Nickname"]
-    obj.NatLangCode = req_data["NatLangCode"]
-    obj.CultureCode = req_data["CultureCode"]
-    obj.Gender = req_data["Gender"]
+    try:
+        obj.FirstName = req_data["FirstName"]
+        obj.LastName = req_data["LastName"]
+        obj.MiddleName = req_data["MiddleName"]
+        obj.Nickname = req_data["Nickname"]
+        obj.NatLangCode = req_data["NatLangCode"]
+        obj.CultureCode = req_data["CultureCode"]
+        obj.Gender = req_data["Gender"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.FirstName, obj.LastName, obj.MiddleName, obj.Nickname, obj.NatLangCode, obj.CultureCode, obj.Gender]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         people_db.add(obj)
@@ -51,14 +59,19 @@ def delete_person(id):
 def put_person(id):
     obj = Person()
     req_data = request.get_json()
-    obj.FirstName = req_data["FirstName"]
-    obj.LastName = req_data["LastName"]
-    obj.MiddleName = req_data["MiddleName"]
-    obj.Nickname = req_data["Nickname"]
-    obj.NatLangCode = req_data["NatLangCode"]
-    obj.CultureCode = req_data["CultureCode"]
-    obj.Gender = req_data["Gender"]
+    try:
+        obj.FirstName = req_data["FirstName"]
+        obj.LastName = req_data["LastName"]
+        obj.MiddleName = req_data["MiddleName"]
+        obj.Nickname = req_data["Nickname"]
+        obj.NatLangCode = req_data["NatLangCode"]
+        obj.CultureCode = req_data["CultureCode"]
+        obj.Gender = req_data["Gender"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.FirstName, obj.LastName, obj.MiddleName, obj.Nickname, obj.NatLangCode, obj.CultureCode, obj.Gender]
+    if not validation(ls): return "Invalid data"
     try:
         people_db.edit(id, obj)
     except BaseException:

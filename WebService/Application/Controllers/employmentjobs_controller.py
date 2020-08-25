@@ -1,6 +1,7 @@
 from Application.DI import employmentjobs_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.employmentjobs_repository import EmploymentJobsRepository
 from Application.Models.employmentjobs import EmploymentJobs
 
@@ -23,10 +24,17 @@ def get_employmentjobs_id(id):
 def post_employmentjobs():
     obj = EmploymentJobs()
     req_data = request.get_json()
-    obj.CountriesCountryId = req_data["CountriesCountryId"]
-    obj.JobTitle = req_data["JobTitle"]
-    obj.MinSalary = req_data["MinSalary"]
-    obj.MaxSalary = req_data["MaxSalary"]
+    try:
+        obj.CountriesCountryId = req_data["CountriesCountryId"]
+        obj.JobTitle = req_data["JobTitle"]
+        obj.MinSalary = req_data["MinSalary"]
+        obj.MaxSalary = req_data["MaxSalary"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CountriesCountryId, obj.JobTitle, obj.MinSalary, obj.MaxSalary]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         employmentjobs_db.add(obj)
@@ -48,11 +56,16 @@ def delete_employmentjobs(id):
 def put_employmentjobs(id):
     obj = EmploymentJobs()
     req_data = request.get_json()
-    obj.CountriesCountryId = req_data["CountriesCountryId"]
-    obj.JobTitle = req_data["JobTitle"]
-    obj.MinSalary = req_data["MinSalary"]
-    obj.MaxSalary = req_data["MaxSalary"]
+    try:
+        obj.CountriesCountryId = req_data["CountriesCountryId"]
+        obj.JobTitle = req_data["JobTitle"]
+        obj.MinSalary = req_data["MinSalary"]
+        obj.MaxSalary = req_data["MaxSalary"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CountriesCountryId, obj.JobTitle, obj.MinSalary, obj.MaxSalary]
+    if not validation(ls): return "Invalid data"
     try:
         employmentjobs_db.edit(id, obj)
     except BaseException:

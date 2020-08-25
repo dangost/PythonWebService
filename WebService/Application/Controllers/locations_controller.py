@@ -1,6 +1,7 @@
 from Application.DI import locations_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.locations_repository import LocationsRepository
 from Application.Models.location import Location
 
@@ -23,17 +24,24 @@ def get_locations_id(id):
 def post_location():
     obj = Location()
     req_data = request.get_json()
-    obj.CountryId = req_data["CountryId"]
-    obj.AdressLine1 = req_data["AdressLine1"]
-    obj.AdressLine2 = req_data["AdressLine2"]
-    obj.City = req_data["City"]
-    obj.State = req_data["State"]
-    obj.District = req_data["District"]
-    obj.PostalCode = req_data["PostalCode"]
-    obj.LocationTypeCode = req_data["LocationTypeCode"]
-    obj.Description = req_data["Description"]
-    obj.ShippingNotes = req_data["ShippingNotes"]
-    obj.CountriesCountryId = req_data["CountriesCountryId"]
+    try:
+        obj.CountryId = req_data["CountryId"]
+        obj.AdressLine1 = req_data["AdressLine1"]
+        obj.AdressLine2 = req_data["AdressLine2"]
+        obj.City = req_data["City"]
+        obj.State = req_data["State"]
+        obj.District = req_data["District"]
+        obj.PostalCode = req_data["PostalCode"]
+        obj.LocationTypeCode = req_data["LocationTypeCode"]
+        obj.Description = req_data["Description"]
+        obj.ShippingNotes = req_data["ShippingNotes"]
+        obj.CountriesCountryId = req_data["CountriesCountryId"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CountryId, obj.AdressLine1, obj.AdressLine2, obj.City, obj.State, obj.District, obj.PostalCode, obj.LocationTypeCode, obj.Description, obj.ShippingNotes, obj.CountriesCountryId]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         locations_db.add(obj)
@@ -55,18 +63,23 @@ def delete_location(id):
 def put_location(id):
     obj = Location()
     req_data = request.get_json()
-    obj.CountryId = req_data["CountryId"]
-    obj.AdressLine1 = req_data["AdressLine1"]
-    obj.AdressLine2 = req_data["AdressLine2"]
-    obj.City = req_data["City"]
-    obj.State = req_data["State"]
-    obj.District = req_data["District"]
-    obj.PostalCode = req_data["PostalCode"]
-    obj.LocationTypeCode = req_data["LocationTypeCode"]
-    obj.Description = req_data["Description"]
-    obj.ShippingNotes = req_data["ShippingNotes"]
-    obj.CountriesCountryId = req_data["CountriesCountryId"]
+    try:
+        obj.CountryId = req_data["CountryId"]
+        obj.AdressLine1 = req_data["AdressLine1"]
+        obj.AdressLine2 = req_data["AdressLine2"]
+        obj.City = req_data["City"]
+        obj.State = req_data["State"]
+        obj.District = req_data["District"]
+        obj.PostalCode = req_data["PostalCode"]
+        obj.LocationTypeCode = req_data["LocationTypeCode"]
+        obj.Description = req_data["Description"]
+        obj.ShippingNotes = req_data["ShippingNotes"]
+        obj.CountriesCountryId = req_data["CountriesCountryId"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CountryId, obj.AdressLine1, obj.AdressLine2, obj.City, obj.State, obj.District, obj.PostalCode, obj.LocationTypeCode, obj.Description, obj.ShippingNotes, obj.CountriesCountryId]
+    if not validation(ls): return "Invalid data"
     try:
         locations_db.edit(id, obj)
     except BaseException:

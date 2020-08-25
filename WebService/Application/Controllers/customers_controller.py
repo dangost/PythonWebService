@@ -1,6 +1,7 @@
 from Application.DI import customers_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.customers_repository import CustomersRepository
 from Application.Models.customer import Customer
 
@@ -23,10 +24,17 @@ def get_customers_id(id):
 def post_customer():
     obj = Customer()
     req_data = request.get_json()
-    obj.PersonId = req_data["PersonId"]
-    obj.CustomEmployeeId = req_data["CustomEmployeeId"]
-    obj.AccountMgrId = req_data["AccountMgrId"]
-    obj.IncomeLevel = req_data["IncomeLevel"]
+    try:
+        obj.PersonId = req_data["PersonId"]
+        obj.CustomEmployeeId = req_data["CustomEmployeeId"]
+        obj.AccountMgrId = req_data["AccountMgrId"]
+        obj.IncomeLevel = req_data["IncomeLevel"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.PersonId, obj.CustomEmployeeId, obj.AccountMgrId, obj.IncomeLevel]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         customers_db.add(obj)
@@ -48,11 +56,16 @@ def delete_customer(id):
 def put_customer(id):
     obj = Customer()
     req_data = request.get_json()
-    obj.PersonId = req_data["PersonId"]
-    obj.CustomEmployeeId = req_data["CustomEmployeeId"]
-    obj.AccountMgrId = req_data["AccountMgrId"]
-    obj.IncomeLevel = req_data["IncomeLevel"]
+    try:
+        obj.PersonId = req_data["PersonId"]
+        obj.CustomEmployeeId = req_data["CustomEmployeeId"]
+        obj.AccountMgrId = req_data["AccountMgrId"]
+        obj.IncomeLevel = req_data["IncomeLevel"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.PersonId, obj.CustomEmployeeId, obj.AccountMgrId, obj.IncomeLevel]
+    if not validation(ls): return "Invalid data"
     try:
         customers_db.edit(id, obj)
     except BaseException:

@@ -30,12 +30,18 @@ for i in range(len(class_names)):
     #obj.CountryName = req_data["CountryName"]
 
     t = ""
+    v = "    ls = ["
     for each in base[i]:
-        t +="    obj."+each+" = req_data[\""+each+"\"]\n"
+        t +="        obj."+each+" = req_data[\""+each+"\"]\n"
+        v += "obj."+each+", "
+
+    inv = "    if not validation(ls): return \"Invalid data\""
+    v = v[0:-2] +"]\n" +inv
 
     temp = '''from Application.DI import '''+list_names[i].lower()+'''_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.'''+list_names[i].lower()+'''_repository import '''+list_names[i]+'''Repository
 from Application.Models.'''+class_names[i].lower()+''' import '''+class_names[i]+'''
 
@@ -58,7 +64,13 @@ def get_'''+list_names[i].lower()+'''_id(id):
 def post_'''+class_names[i].lower()+'''():
     obj = '''+class_names[i]+'''()
     req_data = request.get_json()
+    try:
 '''+t+'''
+    except BaseException:
+        return "Invalid data"
+'''+v+'''
+
+
     try:
         '''+list_names[i].lower()+'''_db.add(obj)
     except BaseException:
@@ -79,7 +91,11 @@ def delete_'''+class_names[i].lower()+'''(id):
 def put_'''+class_names[i].lower()+'''(id):
     obj = '''+class_names[i]+'''()
     req_data = request.get_json()
+    try:
 '''+t+'''
+    except BaseException:
+        return "Invalid data"
+'''+v+'''
     try:
         '''+list_names[i].lower()+'''_db.edit(id, obj)
     except BaseException:

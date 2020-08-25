@@ -1,6 +1,7 @@
 from Application.DI import orderitems_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.orderitems_repository import OrderItemsRepository
 from Application.Models.orderitem import OrderItem
 
@@ -23,10 +24,17 @@ def get_orderitems_id(id):
 def post_orderitem():
     obj = OrderItem()
     req_data = request.get_json()
-    obj.OrderId = req_data["OrderId"]
-    obj.ProductId = req_data["ProductId"]
-    obj.UnitPrice = req_data["UnitPrice"]
-    obj.Quantity = req_data["Quantity"]
+    try:
+        obj.OrderId = req_data["OrderId"]
+        obj.ProductId = req_data["ProductId"]
+        obj.UnitPrice = req_data["UnitPrice"]
+        obj.Quantity = req_data["Quantity"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.OrderId, obj.ProductId, obj.UnitPrice, obj.Quantity]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         orderitems_db.add(obj)
@@ -48,11 +56,16 @@ def delete_orderitem(id):
 def put_orderitem(id):
     obj = OrderItem()
     req_data = request.get_json()
-    obj.OrderId = req_data["OrderId"]
-    obj.ProductId = req_data["ProductId"]
-    obj.UnitPrice = req_data["UnitPrice"]
-    obj.Quantity = req_data["Quantity"]
+    try:
+        obj.OrderId = req_data["OrderId"]
+        obj.ProductId = req_data["ProductId"]
+        obj.UnitPrice = req_data["UnitPrice"]
+        obj.Quantity = req_data["Quantity"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.OrderId, obj.ProductId, obj.UnitPrice, obj.Quantity]
+    if not validation(ls): return "Invalid data"
     try:
         orderitems_db.edit(id, obj)
     except BaseException:

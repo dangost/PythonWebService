@@ -1,6 +1,7 @@
 from Application.DI import countries_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.countries_repository import CountriesRepository
 from Application.Models.country import Country
 
@@ -23,10 +24,17 @@ def get_countries_id(id):
 def post_country():
     obj = Country()
     req_data = request.get_json()
-    obj.CountryName = req_data["CountryName"]
-    obj.CountryCode = req_data["CountryCode"]
-    obj.NatLangCode = req_data["NatLangCode"]
-    obj.CurrencyCode = req_data["CurrencyCode"]
+    try:
+        obj.CountryName = req_data["CountryName"]
+        obj.CountryCode = req_data["CountryCode"]
+        obj.NatLangCode = req_data["NatLangCode"]
+        obj.CurrencyCode = req_data["CurrencyCode"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CountryName, obj.CountryCode, obj.NatLangCode, obj.CurrencyCode]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         countries_db.add(obj)
@@ -48,11 +56,16 @@ def delete_country(id):
 def put_country(id):
     obj = Country()
     req_data = request.get_json()
-    obj.CountryName = req_data["CountryName"]
-    obj.CountryCode = req_data["CountryCode"]
-    obj.NatLangCode = req_data["NatLangCode"]
-    obj.CurrencyCode = req_data["CurrencyCode"]
+    try:
+        obj.CountryName = req_data["CountryName"]
+        obj.CountryCode = req_data["CountryCode"]
+        obj.NatLangCode = req_data["NatLangCode"]
+        obj.CurrencyCode = req_data["CurrencyCode"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CountryName, obj.CountryCode, obj.NatLangCode, obj.CurrencyCode]
+    if not validation(ls): return "Invalid data"
     try:
         countries_db.edit(id, obj)
     except BaseException:

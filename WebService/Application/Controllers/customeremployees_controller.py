@@ -1,6 +1,7 @@
 from Application.DI import customeremployees_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.customeremployees_repository import CustomerEmployeesRepository
 from Application.Models.customeremployee import CustomerEmployee
 
@@ -23,12 +24,19 @@ def get_customeremployees_id(id):
 def post_customeremployee():
     obj = CustomerEmployee()
     req_data = request.get_json()
-    obj.CompanyId = req_data["CompanyId"]
-    obj.BadgeNumber = req_data["BadgeNumber"]
-    obj.JobTitle = req_data["JobTitle"]
-    obj.Department = req_data["Department"]
-    obj.CreditLimit = req_data["CreditLimit"]
-    obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
+    try:
+        obj.CompanyId = req_data["CompanyId"]
+        obj.BadgeNumber = req_data["BadgeNumber"]
+        obj.JobTitle = req_data["JobTitle"]
+        obj.Department = req_data["Department"]
+        obj.CreditLimit = req_data["CreditLimit"]
+        obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CompanyId, obj.BadgeNumber, obj.JobTitle, obj.Department, obj.CreditLimit, obj.CreditLimitCurrency]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         customeremployees_db.add(obj)
@@ -50,13 +58,18 @@ def delete_customeremployee(id):
 def put_customeremployee(id):
     obj = CustomerEmployee()
     req_data = request.get_json()
-    obj.CompanyId = req_data["CompanyId"]
-    obj.BadgeNumber = req_data["BadgeNumber"]
-    obj.JobTitle = req_data["JobTitle"]
-    obj.Department = req_data["Department"]
-    obj.CreditLimit = req_data["CreditLimit"]
-    obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
+    try:
+        obj.CompanyId = req_data["CompanyId"]
+        obj.BadgeNumber = req_data["BadgeNumber"]
+        obj.JobTitle = req_data["JobTitle"]
+        obj.Department = req_data["Department"]
+        obj.CreditLimit = req_data["CreditLimit"]
+        obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CompanyId, obj.BadgeNumber, obj.JobTitle, obj.Department, obj.CreditLimit, obj.CreditLimitCurrency]
+    if not validation(ls): return "Invalid data"
     try:
         customeremployees_db.edit(id, obj)
     except BaseException:

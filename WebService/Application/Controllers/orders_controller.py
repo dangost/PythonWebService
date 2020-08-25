@@ -1,6 +1,7 @@
 from Application.DI import orders_db
 from flask import jsonify
 from flask import Blueprint, request
+from Application.BaseSupport.validation import validation
 from Application.Repositories.orders_repository import OrdersRepository
 from Application.Models.orders import Orders
 
@@ -23,14 +24,21 @@ def get_orders_id(id):
 def post_orders():
     obj = Orders()
     req_data = request.get_json()
-    obj.CustomerId = req_data["CustomerId"]
-    obj.SalesRepId = req_data["SalesRepId"]
-    obj.OrderDate = req_data["OrderDate"]
-    obj.OrderCode = req_data["OrderCode"]
-    obj.OrderStatus = req_data["OrderStatus"]
-    obj.OrderTotal = req_data["OrderTotal"]
-    obj.OrderCurrency = req_data["OrderCurrency"]
-    obj.PromotionCode = req_data["PromotionCode"]
+    try:
+        obj.CustomerId = req_data["CustomerId"]
+        obj.SalesRepId = req_data["SalesRepId"]
+        obj.OrderDate = req_data["OrderDate"]
+        obj.OrderCode = req_data["OrderCode"]
+        obj.OrderStatus = req_data["OrderStatus"]
+        obj.OrderTotal = req_data["OrderTotal"]
+        obj.OrderCurrency = req_data["OrderCurrency"]
+        obj.PromotionCode = req_data["PromotionCode"]
+
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CustomerId, obj.SalesRepId, obj.OrderDate, obj.OrderCode, obj.OrderStatus, obj.OrderTotal, obj.OrderCurrency, obj.PromotionCode]
+    if not validation(ls): return "Invalid data"
+
 
     try:
         orders_db.add(obj)
@@ -52,15 +60,20 @@ def delete_orders(id):
 def put_orders(id):
     obj = Orders()
     req_data = request.get_json()
-    obj.CustomerId = req_data["CustomerId"]
-    obj.SalesRepId = req_data["SalesRepId"]
-    obj.OrderDate = req_data["OrderDate"]
-    obj.OrderCode = req_data["OrderCode"]
-    obj.OrderStatus = req_data["OrderStatus"]
-    obj.OrderTotal = req_data["OrderTotal"]
-    obj.OrderCurrency = req_data["OrderCurrency"]
-    obj.PromotionCode = req_data["PromotionCode"]
+    try:
+        obj.CustomerId = req_data["CustomerId"]
+        obj.SalesRepId = req_data["SalesRepId"]
+        obj.OrderDate = req_data["OrderDate"]
+        obj.OrderCode = req_data["OrderCode"]
+        obj.OrderStatus = req_data["OrderStatus"]
+        obj.OrderTotal = req_data["OrderTotal"]
+        obj.OrderCurrency = req_data["OrderCurrency"]
+        obj.PromotionCode = req_data["PromotionCode"]
 
+    except BaseException:
+        return "Invalid data"
+    ls = [obj.CustomerId, obj.SalesRepId, obj.OrderDate, obj.OrderCode, obj.OrderStatus, obj.OrderTotal, obj.OrderCurrency, obj.PromotionCode]
+    if not validation(ls): return "Invalid data"
     try:
         orders_db.edit(id, obj)
     except BaseException:
