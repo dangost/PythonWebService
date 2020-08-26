@@ -1,7 +1,8 @@
-from Application.DI import products_db
+from Application.App import products_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.products_repository import ProductsRepository
 from Application.Models.product import Product
 
@@ -24,6 +25,12 @@ def get_products_id(id):
 def post_product():
     obj = Product()
     req_data = request.get_json()
+    
+    schema = Schemes.product_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
         obj.ProductName = req_data["ProductName"]
         obj.Description = req_data["Description"]
@@ -39,8 +46,6 @@ def post_product():
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.ProductName, obj.Description, obj.Category, obj.WeightClass, obj.WarrantlyPeriod, obj.SupplierId, obj.Status, obj.ListPrice, obj.MinimumPrice, obj.PriceCurrency, obj.CatalogURL]
-    if not validation(ls): return "Invalid data"
 
 
     try:
@@ -63,6 +68,12 @@ def delete_product(id):
 def put_product(id):
     obj = Product()
     req_data = request.get_json()
+    
+    schema = Schemes.product_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
         obj.ProductName = req_data["ProductName"]
         obj.Description = req_data["Description"]
@@ -78,8 +89,6 @@ def put_product(id):
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.ProductName, obj.Description, obj.Category, obj.WeightClass, obj.WarrantlyPeriod, obj.SupplierId, obj.Status, obj.ListPrice, obj.MinimumPrice, obj.PriceCurrency, obj.CatalogURL]
-    if not validation(ls): return "Invalid data"
     try:
         products_db.edit(id, obj)
     except BaseException:

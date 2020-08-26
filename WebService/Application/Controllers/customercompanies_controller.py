@@ -1,7 +1,8 @@
-from Application.DI import customercompanies_db
+from Application.App import customercompanies_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.customercompanies_repository import CustomerCompaniesRepository
 from Application.Models.customercompany import CustomerCompany
 
@@ -24,6 +25,12 @@ def get_customercompanies_id(id):
 def post_customercompany():
     obj = CustomerCompany()
     req_data = request.get_json()
+    
+    schema = Schemes.customercompany_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
         obj.CompanyName = req_data["CompanyName"]
         obj.CompanyCreditLimit = req_data["CompanyCreditLimit"]
@@ -31,8 +38,6 @@ def post_customercompany():
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CompanyName, obj.CompanyCreditLimit, obj.CreditLimitCurrency]
-    if not validation(ls): return "Invalid data"
 
 
     try:
@@ -54,8 +59,13 @@ def delete_customercompany(id):
 @customercompanies_controller_api.route("/api/CustomerCompanies/<int:id>", methods=['PUT'])
 def put_customercompany(id):
     obj = CustomerCompany()
-
     req_data = request.get_json()
+    
+    schema = Schemes.customercompany_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
         obj.CompanyName = req_data["CompanyName"]
         obj.CompanyCreditLimit = req_data["CompanyCreditLimit"]
@@ -63,8 +73,6 @@ def put_customercompany(id):
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CompanyName, obj.CompanyCreditLimit, obj.CreditLimitCurrency]
-    if not validation(ls): return "Invalid data"
     try:
         customercompanies_db.edit(id, obj)
     except BaseException:

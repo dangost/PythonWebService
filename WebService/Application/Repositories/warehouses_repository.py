@@ -45,7 +45,7 @@ class WarehousesRepository(Warehouse, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE Warehouses SET LocationId = '" + str(obj.LocationId) + "',WarehouseName = '" + obj.WarehouseName + " WHERE WarehouseId= "+str(id)+";"
+        request = "UPDATE Warehouses SET LocationId = " + str(obj.LocationId) + ", WarehouseName = '" + obj.WarehouseName + "' WHERE WarehouseId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

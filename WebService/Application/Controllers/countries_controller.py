@@ -1,7 +1,8 @@
-from Application.DI import countries_db
+from Application.App import countries_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.countries_repository import CountriesRepository
 from Application.Models.country import Country
 
@@ -24,6 +25,12 @@ def get_countries_id(id):
 def post_country():
     obj = Country()
     req_data = request.get_json()
+    
+    schema = Schemes.country_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
         obj.CountryName = req_data["CountryName"]
         obj.CountryCode = req_data["CountryCode"]
@@ -32,15 +39,12 @@ def post_country():
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CountryName, obj.CountryCode, obj.NatLangCode, obj.CurrencyCode]
-    if not validation(ls): return "Invalid data"
 
 
     try:
         countries_db.add(obj)
     except BaseException:
         return "Bad Request!"
-
     return "OK"
 
 
@@ -57,6 +61,12 @@ def delete_country(id):
 def put_country(id):
     obj = Country()
     req_data = request.get_json()
+    
+    schema = Schemes.country_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
         obj.CountryName = req_data["CountryName"]
         obj.CountryCode = req_data["CountryCode"]
@@ -65,8 +75,6 @@ def put_country(id):
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CountryName, obj.CountryCode, obj.NatLangCode, obj.CurrencyCode]
-    if not validation(ls): return "Invalid data"
     try:
         countries_db.edit(id, obj)
     except BaseException:

@@ -29,7 +29,7 @@ class OrdersRepository(Orders, ARepository):
     def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
-        request = "INSERT INTO Orders(CustomerId, SalesRepId, OrderDate, OrderCode, OrderStatus, OrderTotal, OrderCurrency, PromotionCode) VALUES (\""+str(obj.CustomerId)+"\", \""+str(obj.SalesRepId)+"\", \""+obj.OrderDate+"\", \""+obj.OrderCode+"\", \""+obj.OrderStatus+"\", \""+str(obj.OrderTotal)+"\", \""+obj.OrderCurrency+"\", \""+obj.PromotionCode+"\");"
+        request = "INSERT INTO Orders(SalesRepId, OrderDate, OrderCode, OrderStatus, OrderTotal, OrderCurrency, PromotionCode) VALUES (\""+str(obj.SalesRepId)+"\", \""+obj.OrderDate+"\", \""+str(obj.OrderCode)+"\", \""+obj.OrderStatus+"\", \""+str(obj.OrderTotal)+"\", \""+obj.OrderCurrency+"\", \""+obj.PromotionCode+"\");"
         c.execute(request)
         connection.commit()
         c.close()
@@ -45,7 +45,7 @@ class OrdersRepository(Orders, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE Orders SET CustomerId = '" + str(obj.CustomerId) + "',SalesRepId = '" + str(obj.SalesRepId) + "',OrderDate = '" + obj.OrderDate + "',OrderCode = '" + obj.OrderCode + "',OrderStatus = '" + obj.OrderStatus + "',OrderTotal = '" + str(obj.OrderTotal) + "',OrderCurrency = '" + obj.OrderCurrency + "',PromotionCode = '" + obj.PromotionCode + " WHERE OrderId= "+str(id)+";"
+        request = "UPDATE Orders SET " + str(obj.SalesRepId) + "',OrderDate = '" + obj.OrderDate + "',OrderCode = '" + str(obj.OrderCode) + "',OrderStatus = '" + obj.OrderStatus + "',OrderTotal = '" + str(obj.OrderTotal) + "',OrderCurrency = '" + obj.OrderCurrency + "',PromotionCode = '" + obj.PromotionCode + " WHERE OrderId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

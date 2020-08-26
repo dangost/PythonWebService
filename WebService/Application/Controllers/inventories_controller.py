@@ -1,7 +1,8 @@
-from Application.DI import inventories_db
+from Application.App import inventories_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.inventories_repository import InventoriesRepository
 from Application.Models.inventory import Inventory
 
@@ -24,15 +25,20 @@ def get_inventories_id(id):
 def post_inventory():
     obj = Inventory()
     req_data = request.get_json()
+    
+    schema = Schemes.inventory_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.ProductId = req_data["ProductId"]
         obj.WarehouseId = req_data["WarehouseId"]
         obj.QuantityOnHand = req_data["QuantityOnHand"]
-        obj.QuantityAvaliable = req_data["QuantityAvaliable"]
+        obj.QuantityAvaliable = req_data["QuantityAvailable"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.WarehouseId, obj.QuantityOnHand, obj.QuantityAvaliable]
-    if not validation(ls): return "Invalid data"
 
 
     try:
@@ -55,16 +61,20 @@ def delete_inventory(id):
 def put_inventory(id):
     obj = Inventory()
     req_data = request.get_json()
+    
+    schema = Schemes.inventory_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.ProductId = req_data["ProductId"]
         obj.WarehouseId = req_data["WarehouseId"]
         obj.QuantityOnHand = req_data["QuantityOnHand"]
-        obj.QuantityAvaliable = req_data["QuantityAvaliable"]
+        obj.QuantityAvaliable = req_data["QuantityAvailable"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.WarehouseId, obj.QuantityOnHand, obj.QuantityAvaliable]
-    if not validation(ls): return "Invalid data"
-
     try:
         inventories_db.edit(id, obj)
     except BaseException:

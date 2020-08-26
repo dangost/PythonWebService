@@ -1,7 +1,8 @@
-from Application.DI import phonenumbers_db
+from Application.App import phonenumbers_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.phonenumbers_repository import PhoneNumbersRepository
 from Application.Models.phonenumber import PhoneNumber
 
@@ -24,15 +25,21 @@ def get_phonenumbers_id(id):
 def post_phonenumber():
     obj = PhoneNumber()
     req_data = request.get_json()
+    
+    schema = Schemes.phonenumber_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.PeoplePersonId = req_data["PeoplePersonId"]
+        obj.LocationLocationId = req_data["LocationLocationId"]
         obj.Phonenumber = req_data["Phonenumber"]
         obj.CountryCode = req_data["CountryCode"]
         obj.PhoneType = req_data["PhoneType"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.Phonenumber, obj.CountryCode, obj.PhoneType]
-    if not validation(ls): return "Invalid data"
 
 
     try:
@@ -55,16 +62,21 @@ def delete_phonenumber(id):
 def put_phonenumber(id):
     obj = PhoneNumber()
     req_data = request.get_json()
+    
+    schema = Schemes.phonenumber_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.PeoplePersonId = req_data["PeoplePersonId"]
+        obj.LocationLocationId = req_data["LocationLocationId"]
         obj.Phonenumber = req_data["Phonenumber"]
         obj.CountryCode = req_data["CountryCode"]
         obj.PhoneType = req_data["PhoneType"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.Phonenumber, obj.CountryCode, obj.PhoneType]
-    if not validation(ls): return "Invalid data"
-
     try:
         phonenumbers_db.edit(id, obj)
     except BaseException:

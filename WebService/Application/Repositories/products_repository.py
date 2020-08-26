@@ -29,7 +29,7 @@ class ProductsRepository(Product, ARepository):
     def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
-        request = "INSERT INTO Products(ProductName, Description, Category, WeightClass, WarrantlyPeriod, SupplierId, Status, ListPrice, MinimumPrice, PriceCurrency, CatalogURL) VALUES (\""+obj.ProductName+"\", \""+obj.Description+"\", \""+str(obj.Category)+"\", \""+obj.WeightClass+"\", \""+str(obj.WarrantlyPeriod)+"\", \""+str(obj.SupplierId)+"\", \""+obj.Status+"\", \""+str(obj.ListPrice)+"\", \""+str(obj.MinimumPrice)+"\", \""+obj.PriceCurrency+"\", \""+obj.CatalogURL+"\");"
+        request = "INSERT INTO Products(ProductName, Description, Category, WeightClass, WarrantlyPeriod, SupplierId, Status, ListPrice, MinimumPrice, PriceCurrency, CatalogURL) VALUES (\""+obj.ProductName+"\", \""+obj.Description+"\", \""+str(obj.Category)+"\", \""+str(obj.WeightClass)+"\", \""+str(obj.WarrantlyPeriod)+"\", \""+str(obj.SupplierId)+"\", \""+obj.Status+"\", \""+str(obj.ListPrice)+"\", \""+str(obj.MinimumPrice)+"\", \""+obj.PriceCurrency+"\", \""+obj.CatalogURL+"\");"
         c.execute(request)
         connection.commit()
         c.close()
@@ -45,7 +45,7 @@ class ProductsRepository(Product, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE Products SET ProductName = '" + obj.ProductName + "',Description = '" + obj.Description + "',Category = '" + str(obj.Category) + "',WeightClass = '" + obj.WeightClass + "',WarrantlyPeriod = '" + str(obj.WarrantlyPeriod) + "',SupplierId = '" + str(obj.SupplierId) + "',Status = '" + obj.Status + "',ListPrice = '" + str(obj.ListPrice) + "',MinimumPrice = '" + str(obj.MinimumPrice) + "',PriceCurrency = '" + obj.PriceCurrency + "',CatalogURL = '" + obj.CatalogURL + " WHERE ProductId= "+str(id)+";"
+        request = "UPDATE Products SET ProductName = '" + obj.ProductName + "',Description = '" + obj.Description + "',Category = '" + str(obj.Category) + "',WeightClass = '" + str(obj.WeightClass) + "',WarrantlyPeriod = '" + str(obj.WarrantlyPeriod) + "',SupplierId = '" + str(obj.SupplierId) + "',Status = '" + obj.Status + "',ListPrice = '" + str(obj.ListPrice) + "',MinimumPrice = '" + str(obj.MinimumPrice) + "',PriceCurrency = '" + obj.PriceCurrency + "',CatalogURL = '" + obj.CatalogURL + " WHERE ProductId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

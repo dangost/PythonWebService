@@ -29,7 +29,7 @@ class PhoneNumbersRepository(PhoneNumber, ARepository):
     def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
-        request = "INSERT INTO PhoneNumbers(PeoplePersonId, LocationLocationId, Phonenumber, CountryCode, PhoneType) VALUES (\""+str(obj.PeoplePersonId)+"\", \""+str(obj.LocationLocationId)+"\", \""+str(obj.Phonenumber)+"\", \""+str(obj.CountryCode)+"\", \""+str(obj.PhoneType)+"\");"
+        request = "INSERT INTO PhoneNumbers(PeoplePersonId, LocationsLocationId, Phonenumber, CountryCode, PhoneType) VALUES (\""+str(obj.PeoplePersonId)+"\", \""+str(obj.LocationLocationId)+"\", \""+str(obj.Phonenumber)+"\", \""+str(obj.CountryCode)+"\", \""+str(obj.PhoneType)+"\");"
         c.execute(request)
         connection.commit()
         c.close()
@@ -45,7 +45,7 @@ class PhoneNumbersRepository(PhoneNumber, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE PhoneNumbers SET PeoplePersonId = '" + str(obj.PeoplePersonId) + "',LocationLocationId = '" + str(obj.LocationLocationId) + "',Phonenumber = '" + str(obj.Phonenumber) + "',CountryCode = '" + str(obj.CountryCode) + "',PhoneType = '" + str(obj.PhoneType) + " WHERE PhoneNumberId= "+str(id)+";"
+        request = "UPDATE PhoneNumbers SET PeoplePersonId = '" + str(obj.PeoplePersonId) + "',LocationsLocationId = '" + str(obj.LocationLocationId) + "',Phonenumber = '" + str(obj.Phonenumber) + "',CountryCode = '" + str(obj.CountryCode) + "',PhoneType = '" + str(obj.PhoneType) + " WHERE PhoneNumberId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)
@@ -56,7 +56,7 @@ class PhoneNumbersRepository(PhoneNumber, ARepository):
     def get(self) -> List[PhoneNumber]:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
-        request = "SELECT PhoneNumberId, PeoplePersonId, LocationLocationId, Phonenumber, CountryCode, PhoneType FROM PhoneNumbers"
+        request = "SELECT PhoneNumberId, PeoplePersonId, LocationsLocationId, Phonenumber, CountryCode, PhoneType FROM PhoneNumbers"
         cursor.execute(request)
         fetch = cursor.fetchall()
         ls = []

@@ -1,7 +1,8 @@
-from Application.DI import customeremployees_db
+from Application.App import customeremployees_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.customeremployees_repository import CustomerEmployeesRepository
 from Application.Models.customeremployee import CustomerEmployee
 
@@ -24,7 +25,14 @@ def get_customeremployees_id(id):
 def post_customeremployee():
     obj = CustomerEmployee()
     req_data = request.get_json()
+    
+    schema = Schemes.customeremployee_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.CompanyId = req_data["CompanyId"]
         obj.BadgeNumber = req_data["BadgeNumber"]
         obj.JobTitle = req_data["JobTitle"]
         obj.Department = req_data["Department"]
@@ -33,8 +41,7 @@ def post_customeremployee():
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.BadgeNumber, obj.JobTitle, obj.Department, obj.CreditLimit, obj.CreditLimitCurrency]
-    if not validation(ls): return "Invalid data"
+
 
     try:
         customeremployees_db.add(obj)
@@ -56,7 +63,14 @@ def delete_customeremployee(id):
 def put_customeremployee(id):
     obj = CustomerEmployee()
     req_data = request.get_json()
+    
+    schema = Schemes.customeremployee_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.CompanyId = req_data["CompanyId"]
         obj.BadgeNumber = req_data["BadgeNumber"]
         obj.JobTitle = req_data["JobTitle"]
         obj.Department = req_data["Department"]
@@ -65,8 +79,6 @@ def put_customeremployee(id):
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.BadgeNumber, obj.JobTitle, obj.Department, obj.CreditLimit, obj.CreditLimitCurrency]
-    if not validation(ls): return "Invalid data"
     try:
         customeremployees_db.edit(id, obj)
     except BaseException:

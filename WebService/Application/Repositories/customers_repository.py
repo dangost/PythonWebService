@@ -29,7 +29,7 @@ class CustomersRepository(Customer, ARepository):
     def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
-        request = "INSERT INTO Customers(PersonId, CustomerEmployeeId, AccountMgrId, IncomeLevel) VALUES (\""+str(obj.PersonId)+"\", \""+str(obj.CustomerEmployeeId)+"\", \""+str(obj.AccountMgrId)+"\", \""+str(obj.IncomeLevel)+"\");"
+        request = "INSERT INTO Customers(CustomerId, PersonId, CustomerEmployeeId, AccountMgrId, IncomeLevel) VALUES (\""+str(obj.CustomId)+"\", \""+str(obj.PersonId)+"\", \""+str(obj.CustomEmployeeId)+"\", \""+str(obj.AccountMgrId)+"\", \""+str(obj.IncomeLevel)+"\");"
         c.execute(request)
         connection.commit()
         c.close()
@@ -45,7 +45,7 @@ class CustomersRepository(Customer, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE Customers SET PersonId = '" + str(obj.PersonId) + "',CustomerEmployeeId = '" + str(obj.CustomerEmployeeId) + "',AccountMgrId = '" + str(obj.AccountMgrId) + "',IncomeLevel = '" + str(obj.IncomeLevel) + " WHERE CustomerId= "+str(id)+";"
+        request = "UPDATE Customers SET CustomerId = '" + str(obj.CustomId) + "', PersonId = '" + str(obj.PersonId) + "',CustomerEmployeeId = '" + str(obj.CustomerEmployeeId) + "',AccountMgrId = '" + str(obj.AccountMgrId) + "',IncomeLevel = '" + str(obj.IncomeLevel) + " WHERE CustomerId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

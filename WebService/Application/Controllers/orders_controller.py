@@ -1,7 +1,8 @@
-from Application.DI import orders_db
+from Application.App import orders_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.orders_repository import OrdersRepository
 from Application.Models.orders import Orders
 
@@ -24,6 +25,12 @@ def get_orders_id(id):
 def post_orders():
     obj = Orders()
     req_data = request.get_json()
+    
+    schema = Schemes.orders_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
         obj.SalesRepId = req_data["SalesRepId"]
         obj.OrderDate = req_data["OrderDate"]
@@ -35,8 +42,6 @@ def post_orders():
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.SalesRepId, obj.OrderDate, obj.OrderCode, obj.OrderStatus, obj.OrderTotal, obj.OrderCurrency, obj.PromotionCode]
-    if not validation(ls): return "Invalid data"
 
 
     try:
@@ -59,8 +64,13 @@ def delete_orders(id):
 def put_orders(id):
     obj = Orders()
     req_data = request.get_json()
+    
+    schema = Schemes.orders_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
-        obj.CustomerId = req_data["CustomerId"]
         obj.SalesRepId = req_data["SalesRepId"]
         obj.OrderDate = req_data["OrderDate"]
         obj.OrderCode = req_data["OrderCode"]
@@ -71,8 +81,6 @@ def put_orders(id):
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.CustomerId, obj.SalesRepId, obj.OrderDate, obj.OrderCode, obj.OrderStatus, obj.OrderTotal, obj.OrderCurrency, obj.PromotionCode]
-    if not validation(ls): return "Invalid data"
     try:
         orders_db.edit(id, obj)
     except BaseException:

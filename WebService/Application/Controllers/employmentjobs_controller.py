@@ -1,7 +1,8 @@
-from Application.DI import employmentjobs_db
+from Application.App import employmentjobs_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.employmentjobs_repository import EmploymentJobsRepository
 from Application.Models.employmentjobs import EmploymentJobs
 
@@ -24,15 +25,20 @@ def get_employmentjobs_id(id):
 def post_employmentjobs():
     obj = EmploymentJobs()
     req_data = request.get_json()
+    
+    schema = Schemes.employmentjobs_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.CountriesCountryId = req_data["CountriesCountryId"]
         obj.JobTitle = req_data["JobTitle"]
         obj.MinSalary = req_data["MinSalary"]
         obj.MaxSalary = req_data["MaxSalary"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.JobTitle, obj.MinSalary, obj.MaxSalary]
-    if not validation(ls): return "Invalid data"
 
 
     try:
@@ -55,15 +61,20 @@ def delete_employmentjobs(id):
 def put_employmentjobs(id):
     obj = EmploymentJobs()
     req_data = request.get_json()
+    
+    schema = Schemes.employmentjobs_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.CountriesCountryId = req_data["CountriesCountryId"]
         obj.JobTitle = req_data["JobTitle"]
         obj.MinSalary = req_data["MinSalary"]
         obj.MaxSalary = req_data["MaxSalary"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.JobTitle, obj.MinSalary, obj.MaxSalary]
-    if not validation(ls): return "Invalid data"
     try:
         employmentjobs_db.edit(id, obj)
     except BaseException:

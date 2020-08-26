@@ -29,7 +29,7 @@ class PersonLocationsRepository(PersonLocation, ARepository):
     def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
-        request = "INSERT INTO PersonLocations(LocationsLocationsId, SubAdress, LocationUsage, Notes) VALUES (\""+str(obj.LocationsLocationsId)+"\", \""+obj.SubAdress+"\", \""+obj.LocationUsage+"\", \""+obj.Notes+"\");"
+        request = "INSERT INTO PersonLocations(LocationsLocationId, SubAdress, LocationUsage, Notes) VALUES (\""+str(obj.LocationsLocationsId)+"\", \""+obj.SubAdress+"\", \""+obj.LocationUsage+"\", \""+obj.Notes+"\");"
         c.execute(request)
         connection.commit()
         c.close()
@@ -45,7 +45,7 @@ class PersonLocationsRepository(PersonLocation, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE PersonLocations SET LocationsLocationsId = '" + str(obj.LocationsLocationsId) + "',SubAdress = '" + obj.SubAdress + "',LocationUsage = '" + obj.LocationUsage + "',Notes = '" + obj.Notes + " WHERE = "+str(id)+";"
+        request = "UPDATE PersonLocations SET LocationsLocationId = '" + str(obj.LocationsLocationsId) + "',SubAdress = '" + obj.SubAdress + "',LocationUsage = '" + obj.LocationUsage + "',Notes = '" + obj.Notes + " WHERE = "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)
@@ -56,7 +56,7 @@ class PersonLocationsRepository(PersonLocation, ARepository):
     def get(self) -> List[PersonLocation]:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
-        request = "SELECT , LocationsLocationsId, SubAdress, LocationUsage, Notes FROM PersonLocations"
+        request = "SELECT PersonsPersonId, LocationsLocationId, SubAdress, LocationUsage, Notes FROM PersonLocations"
         cursor.execute(request)
         fetch = cursor.fetchall()
         ls = []

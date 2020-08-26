@@ -15,16 +15,17 @@ for i in range(len(list_names)):
 
     log = ""
     log += ""+list_names[i]+" \nValid: "
-    if requests.post(link, json=valid_list[i]).text == "Invalid data":
-        log += "Denied\n\n"
+    text = requests.post(link, json=valid_list[i]).text
+    if  text == "Invalid data":
+        log += text + " Denied\n\n"
     else:
-        log += "Accepted\n\n"
+        log += text + " Accepted\n\n"
 
     log += "Invalid: "
     if requests.post(link, json=invalid_list[i]).text != "Invalid data":
-        log += "Denied\n\n\n\n"
+        log += text + " Denied\n\n\n\n"
     else:
-        log += "Accepted\n\n\n\n"
+        log += text + " Accepted\n\n\n\n"
 
     file.write(log)
 

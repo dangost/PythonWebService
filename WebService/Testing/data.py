@@ -1,7 +1,7 @@
 class Data:
     country_valid_json = {
         "CountryName": "123",
-        "CountryCode": 1112,
+        "CountryCode": "1112",
         "NatLangCode": 332,
         "CurrencyCode": "123",
         "Currency": "dollar"
@@ -78,7 +78,7 @@ class Data:
         "StartDate": "1.01.2020",
         "EndDate:": "07.01.2020",
         "Salary": 2000,
-        "CommissionPercent": 4,
+        "CommissionPercent": 40,
         "Employmentcol": "fafafa"
     }
 

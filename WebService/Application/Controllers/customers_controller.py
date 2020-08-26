@@ -1,7 +1,8 @@
-from Application.DI import customers_db
+from Application.App import customers_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.customers_repository import CustomersRepository
 from Application.Models.customer import Customer
 
@@ -24,14 +25,22 @@ def get_customers_id(id):
 def post_customer():
     obj = Customer()
     req_data = request.get_json()
+    
+    schema = Schemes.customer_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.CustomId = req_data["CustomerId"]
+        obj.PersonId = req_data["PersonId"]
+        obj.CustomEmployeeId = req_data["CustomerEmployeeId"]
         obj.AccountMgrId = req_data["AccountMgrId"]
         obj.IncomeLevel = req_data["IncomeLevel"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.AccountMgrId, obj.IncomeLevel]
-    if not validation(ls): return "Invalid data"
+
 
     try:
         customers_db.add(obj)
@@ -53,14 +62,20 @@ def delete_customer(id):
 def put_customer(id):
     obj = Customer()
     req_data = request.get_json()
+    
+    schema = Schemes.customer_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.PersonId = req_data["PersonId"]
+        obj.CustomEmployeeId = req_data["CustomEmployeeId"]
         obj.AccountMgrId = req_data["AccountMgrId"]
         obj.IncomeLevel = req_data["IncomeLevel"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.AccountMgrId, obj.IncomeLevel]
-    if not validation(ls): return "Invalid data"
     try:
         customers_db.edit(id, obj)
     except BaseException:

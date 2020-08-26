@@ -1,112 +1,112 @@
 Countries 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 Customers 
-Valid: Denied
+Valid: Invalid data Denied
 
-Invalid: Accepted
+Invalid: Invalid data Accepted
 
 
 
 CustomerCompanies 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 CustomerEmployees 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 Employments 
-Valid: Denied
+Valid: Invalid data Denied
 
-Invalid: Accepted
+Invalid: Invalid data Accepted
 
 
 
 EmploymentJobs 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 Inventories 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 Locations 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 OrderItems 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 Orders 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 People 
-Valid: Accepted
+Valid: OK Accepted
 
-Invalid: Accepted
+Invalid: OK Accepted
 
 
 
 PersonLocations 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 PhoneNumbers 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 Products 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 RestrictedInfo 
-Valid: Accepted
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 
 Warehouses 
-Valid: Denied
+Valid: Bad Request! Accepted
 
-Invalid: Accepted
+Invalid: Bad Request! Accepted
 
 
 

@@ -1,7 +1,8 @@
-from Application.DI import employments_db
+from Application.App import employments_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.employments_repository import EmploymentsRepository
 from Application.Models.employment import Employment
 
@@ -24,7 +25,16 @@ def get_employments_id(id):
 def post_employment():
     obj = Employment()
     req_data = request.get_json()
+    
+    schema = Schemes.employment_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.PersonId = req_data["PersonId"]
+        obj.HRJobId = req_data["HRJobId"]
+        obj.ManagerEmployeeId = req_data["ManagerEmployeeId"]
         obj.StartDate = req_data["StartDate"]
         obj.EndDate = req_data["EndDate"]
         obj.Salary = req_data["Salary"]
@@ -33,8 +43,6 @@ def post_employment():
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.StartDate, obj.EndDate, obj.Salary, obj.CommissionPercent, obj.Employmentcol]
-    if not validation(ls): return "Invalid data"
 
 
     try:
@@ -57,7 +65,16 @@ def delete_employment(id):
 def put_employment(id):
     obj = Employment()
     req_data = request.get_json()
+    
+    schema = Schemes.employment_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.PersonId = req_data["PersonId"]
+        obj.HRJobId = req_data["HRJobId"]
+        obj.ManagerEmployeeId = req_data["ManagerEmployeeId"]
         obj.StartDate = req_data["StartDate"]
         obj.EndDate = req_data["EndDate"]
         obj.Salary = req_data["Salary"]
@@ -66,9 +83,6 @@ def put_employment(id):
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.StartDate, obj.EndDate, obj.Salary, obj.CommissionPercent, obj.Employmentcol]
-    if not validation(ls): return "Invalid data"
-
     try:
         employments_db.edit(id, obj)
     except BaseException:

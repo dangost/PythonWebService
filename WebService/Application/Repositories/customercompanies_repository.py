@@ -1,7 +1,6 @@
 from Application.Models.customercompany import CustomerCompany
 import Application.BaseSupport.SQLiteSupport as Base
 import sqlite3
-from os import _exists as file_exists
 from typing import List
 from Application.Abstraction.abs_repository import ARepository
 
@@ -29,7 +28,7 @@ class CustomerCompaniesRepository(CustomerCompany, ARepository):
     def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
-        request = "INSERT INTO CustomerCompanies(CompanyName, CompanyCreditLimit, CreditLimitCurrency) VALUES (\""+obj.CompanyName+"\", \""+obj.CompanyCreditLimit+"\", \""+obj.CreditLimitCurrency+"\");"
+        request = "INSERT INTO CustomerCompanies (CompanyName, CompanyCreditLimit, CreditLimitCurrency) VALUES (\""+obj.CompanyName+"\", \""+str(obj.CompanyCreditLimit)+"\", \""+obj.CreditLimitCurrency+"\");"
         c.execute(request)
         connection.commit()
         c.close()
@@ -45,7 +44,7 @@ class CustomerCompaniesRepository(CustomerCompany, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE CustomerCompanies SET CompanyName = '" + obj.CompanyName + "',CompanyCreditLimit = '" + obj.CompanyCreditLimit + "',CreditLimitCurrency = '" + obj.CreditLimitCurrency + " WHERE CompanyId= "+str(id)+";"
+        request = "UPDATE CustomerCompanies SET CompanyName = '" + obj.CompanyName + "',CompanyCreditLimit = '" + str(obj.CompanyCreditLimit) + "',CreditLimitCurrency = '" + obj.CreditLimitCurrency + " WHERE CompanyId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

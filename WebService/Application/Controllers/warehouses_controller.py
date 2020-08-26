@@ -1,7 +1,8 @@
-from Application.DI import warehouses_db
+from Application.App import warehouses_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.warehouses_repository import WarehousesRepository
 from Application.Models.warehouse import Warehouse
 
@@ -24,13 +25,18 @@ def get_warehouses_id(id):
 def post_warehouse():
     obj = Warehouse()
     req_data = request.get_json()
+    
+    schema = Schemes.warehouse_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.LocationId = req_data["LocationId"]
         obj.WarehouseName = req_data["WarehouseName"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.WarehouseName]
-    if not validation(ls): return "Invalid data"
 
 
     try:
@@ -53,14 +59,18 @@ def delete_warehouse(id):
 def put_warehouse(id):
     obj = Warehouse()
     req_data = request.get_json()
+    
+    schema = Schemes.warehouse_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.LocationId = req_data["LocationId"]
         obj.WarehouseName = req_data["WarehouseName"]
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.WarehouseName]
-    if not validation(ls): return "Invalid data"
-
     try:
         warehouses_db.edit(id, obj)
     except BaseException:

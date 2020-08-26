@@ -1,7 +1,8 @@
-from Application.DI import people_db
+from Application.App import people_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.people_repository import PeopleRepository
 from Application.Models.person import Person
 
@@ -24,6 +25,12 @@ def get_people_id(id):
 def post_person():
     obj = Person()
     req_data = request.get_json()
+    
+    schema = Schemes.person_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
         obj.FirstName = req_data["FirstName"]
         obj.LastName = req_data["LastName"]
@@ -35,9 +42,6 @@ def post_person():
 
     except BaseException:
         return "Invalid data"
-
-    ls = [obj.FirstName, obj.LastName, obj.MiddleName, obj.Nickname, obj.NatLangCode, obj.CultureCode, obj.Gender]
-    if not validation(ls): return "Invalid data"
 
 
     try:
@@ -60,6 +64,12 @@ def delete_person(id):
 def put_person(id):
     obj = Person()
     req_data = request.get_json()
+    
+    schema = Schemes.person_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
         obj.FirstName = req_data["FirstName"]
         obj.LastName = req_data["LastName"]
@@ -71,8 +81,6 @@ def put_person(id):
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.FirstName, obj.LastName, obj.MiddleName, obj.Nickname, obj.NatLangCode, obj.CultureCode, obj.Gender]
-    if not validation(ls): return "Invalid data"
     try:
         people_db.edit(id, obj)
     except BaseException:

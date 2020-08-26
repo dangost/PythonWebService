@@ -1,7 +1,8 @@
-from Application.DI import restrictedinfo_db
+from Application.App import restrictedinfo_db
 from flask import jsonify
 from flask import Blueprint, request
-from Application.BaseSupport.validation import validation
+import cerberus
+from Application.valid.json_schemes import Schemes
 from Application.Repositories.restrictedinfo_repository import RestrictedInfoRepository
 from Application.Models.restrictedinfo import RestrictedInfo
 
@@ -24,7 +25,14 @@ def get_restrictedinfo_id(id):
 def post_restrictedinfo():
     obj = RestrictedInfo()
     req_data = request.get_json()
+    
+    schema = Schemes.restrictedinfo_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.PersonId = req_data["PersonId"]
         obj.DateOfBirth = req_data["DateOfBirth"]
         obj.DateOfDeath = req_data["DateOfDeath"]
         obj.GovernmentId = req_data["GovernmentId"]
@@ -34,9 +42,6 @@ def post_restrictedinfo():
 
     except BaseException:
         return "Invalid data"
-
-    ls = [obj.DateOfBirth, obj.DateOfDeath, obj.GovernmentId, obj.PassportId, obj.HireDire, obj.SeniorityCode]
-    if not validation(ls): return "Invalid data"
 
 
     try:
@@ -59,7 +64,14 @@ def delete_restrictedinfo(id):
 def put_restrictedinfo(id):
     obj = RestrictedInfo()
     req_data = request.get_json()
+    
+    schema = Schemes.restrictedinfo_json
+    v = cerberus.Validator(schema)
+    if not v.validate(req_data):
+        return "Invalid json"
+        
     try:
+        obj.PersonId = req_data["PersonId"]
         obj.DateOfBirth = req_data["DateOfBirth"]
         obj.DateOfDeath = req_data["DateOfDeath"]
         obj.GovernmentId = req_data["GovernmentId"]
@@ -69,8 +81,6 @@ def put_restrictedinfo(id):
 
     except BaseException:
         return "Invalid data"
-    ls = [obj.DateOfBirth, obj.DateOfDeath, obj.GovernmentId, obj.PassportId, obj.HireDire, obj.SeniorityCode]
-    if not validation(ls): return "Invalid data"
     try:
         restrictedinfo_db.edit(id, obj)
     except BaseException:

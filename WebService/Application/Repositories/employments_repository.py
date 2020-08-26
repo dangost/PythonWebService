@@ -29,7 +29,7 @@ class EmploymentsRepository(Employment, ARepository):
     def add(self, obj) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
-        request = "INSERT INTO Employments(PersonId, HRJobId, ManagerEmployeeId, StartDate, EndDate, Salary, CommissionPercent, Employmentcol) VALUES (\""+str(obj.PersonId)+"\", \""+str(obj.HRJobId)+"\", \""+str(obj.ManagerEmployeeId)+"\", \""+obj.StartDate+"\", \""+obj.EndDate+"\", \""+obj.Salary+"\", \""+str(obj.CommissionPercent)+"\", \""+obj.Employmentcol+"\");"
+        request = "INSERT INTO Employments(PersonId, HRJobId, ManagerEmployeeId, StartDate, EndDate, Salary, CommissionPercent, Employmentcol) VALUES (\""+str(obj.PersonId)+"\", \""+str(obj.HRJobId)+"\", \""+str(obj.ManagerEmployeeId)+"\", \""+obj.StartDate+"\", \""+obj.EndDate+"\", \""+str(obj.Salary)+"\", \""+str(obj.CommissionPercent)+"\", \""+obj.Employmentcol+"\");"
         c.execute(request)
         connection.commit()
         c.close()
@@ -45,7 +45,7 @@ class EmploymentsRepository(Employment, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE Employments SET PersonId = '" + str(obj.PersonId) + "',HRJobId = '" + str(obj.HRJobId) + "',ManagerEmployeeId = '" + str(obj.ManagerEmployeeId) + "',StartDate = '" + obj.StartDate + "',EndDate = '" + obj.EndDate + "',Salary = '" + obj.Salary + "',CommissionPercent = '" + str(obj.CommissionPercent) + "',Employmentcol = '" + obj.Employmentcol + " WHERE EmployeeID= "+str(id)+";"
+        request = "UPDATE Employments SET PersonId = '" + str(obj.PersonId) + "',HRJobId = '" + str(obj.HRJobId) + "',ManagerEmployeeId = '" + str(obj.ManagerEmployeeId) + "',StartDate = '" + obj.StartDate + "',EndDate = '" + obj.EndDate + "',Salary = '" + str(obj.Salary) + "',CommissionPercent = '" + str(obj.CommissionPercent) + "',Employmentcol = '" + obj.Employmentcol + " WHERE EmployeeID= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)
