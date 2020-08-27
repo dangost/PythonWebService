@@ -44,7 +44,7 @@ class CustomerCompaniesRepository(CustomerCompany, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE CustomerCompanies SET CompanyName = '" + obj.CompanyName + "',CompanyCreditLimit = '" + str(obj.CompanyCreditLimit) + "',CreditLimitCurrency = '" + obj.CreditLimitCurrency + " WHERE CompanyId= "+str(id)+";"
+        request = "UPDATE CustomerCompanies SET CompanyName = '" + obj.CompanyName + "',CompanyCreditLimit = " + str(obj.CompanyCreditLimit) + ",CreditLimitCurrency = '" + obj.CreditLimitCurrency + "' WHERE CompanyId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

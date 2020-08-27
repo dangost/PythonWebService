@@ -44,7 +44,7 @@ class CountriesRepository(Country, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE Countries SET CountryName = '" + obj.CountryName + "',CountryCode = '" + obj.CountryCode + "',NatLangCode = '" + str(obj.NatLangCode) + "',CurrencyCode = '" + obj.CurrencyCode + " WHERE CountryId= "+str(id)+";"
+        request = "UPDATE Countries SET CountryName = '" + obj.CountryName + "',CountryCode = '" + obj.CountryCode + "', NatLangCode = " + str(obj.NatLangCode) + ", CurrencyCode = '" + obj.CurrencyCode + "' WHERE CountryId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

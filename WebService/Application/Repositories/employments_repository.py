@@ -45,7 +45,7 @@ class EmploymentsRepository(Employment, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE Employments SET PersonId = '" + str(obj.PersonId) + "',HRJobId = '" + str(obj.HRJobId) + "',ManagerEmployeeId = '" + str(obj.ManagerEmployeeId) + "',StartDate = '" + obj.StartDate + "',EndDate = '" + obj.EndDate + "',Salary = '" + str(obj.Salary) + "',CommissionPercent = '" + str(obj.CommissionPercent) + "',Employmentcol = '" + obj.Employmentcol + " WHERE EmployeeID= "+str(id)+";"
+        request = "UPDATE Employments SET PersonId = " + str(obj.PersonId) + ",HRJobId = " + str(obj.HRJobId) + ",ManagerEmployeeId = " + str(obj.ManagerEmployeeId) + ",StartDate = '" + obj.StartDate + "',EndDate = '" + obj.EndDate + "',Salary = " + str(obj.Salary) + ",CommissionPercent = " + str(obj.CommissionPercent) + ",Employmentcol = '" + obj.Employmentcol + "' WHERE EmployeeID= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

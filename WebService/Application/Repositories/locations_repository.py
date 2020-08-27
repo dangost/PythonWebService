@@ -45,7 +45,7 @@ class LocationsRepository(Location, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE Locations SET CountryId = '" + str(obj.CountryId) + "',AdressLine1 = '" + obj.AdressLine1 + "',AdressLine2 = '" + obj.AdressLine2 + "',City = '" + obj.City + "',State = '" + obj.State + "',District = '" + obj.District + "',PostalCode = '" + obj.PostalCode + "',LocationTypeCode = '" + str(obj.LocationTypeCode) + "',Description = '" + obj.Description + "',ShippingNotes = '" + obj.ShippingNotes + "',CountriesCountryId = '" + str(obj.CountriesCountryId) + " WHERE LocationId= "+str(id)+";"
+        request = "UPDATE Locations SET CountryId = " + str(obj.CountryId) + ",AdressLine1 = '" + obj.AdressLine1 + "',AdressLine2 = '" + obj.AdressLine2 + "',City = '" + obj.City + "',State = '" + obj.State + "',District = '" + obj.District + "',PostalCode = '" + obj.PostalCode + "',LocationTypeCode = " + str(obj.LocationTypeCode) + ",Description = '" + obj.Description + "',ShippingNotes = '" + obj.ShippingNotes + "',CountriesCountryId = " + str(obj.CountriesCountryId) + " WHERE LocationId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

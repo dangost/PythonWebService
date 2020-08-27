@@ -38,14 +38,14 @@ class PersonLocationsRepository(PersonLocation, ARepository):
     def delete(self, id) -> None:
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
-        request = "DELETE FROM PersonLocations WHERE  = "+str(id)+";"
+        request = "DELETE FROM PersonLocations WHERE PersonsPersonId = "+str(id)+";"
         c.execute(request)
         connection.commit()
         c.close()
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE PersonLocations SET LocationsLocationId = '" + str(obj.LocationsLocationsId) + "',SubAdress = '" + obj.SubAdress + "',LocationUsage = '" + obj.LocationUsage + "',Notes = '" + obj.Notes + " WHERE = "+str(id)+";"
+        request = "UPDATE PersonLocations SET SubAdress = '" + obj.SubAdress + "',LocationUsage = '" + obj.LocationUsage + "',Notes = '" + obj.Notes + "' WHERE LocationsLocationId = "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)
@@ -69,7 +69,7 @@ class PersonLocationsRepository(PersonLocation, ARepository):
     def get_id(self, id) -> PersonLocation:
         connection = sqlite3.connect(self.sqlite_path)
         cursor = connection.cursor()
-        request = "SELECT * FROM PersonLocations WHERE  = "+str(id)
+        request = "SELECT PersonsPersonId, LocationsLocationId, SubAdress, LocationUsage, Notes FROM PersonLocations WHERE LocationsLocationId = "+str(id)
         cursor.execute(request)
         fetch = cursor.fetchone()
         personlocation = PersonLocation()

@@ -45,7 +45,7 @@ class PeopleRepository(Person, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE People SET FirstName = '" + obj.FirstName + "',LastName = '" + obj.LastName + "',MiddleName = '" + obj.MiddleName + "',Nickname = '" + obj.Nickname + "',NatLangCode = '" + str(obj.NatLangCode) + "',CultureCode = '" + str(obj.CultureCode) + "',Gender = '" + obj.Gender + " WHERE Id= "+str(id)+";"
+        request = "UPDATE People SET FirstName = '" + obj.FirstName + "',LastName = '" + obj.LastName + "',MiddleName = '" + obj.MiddleName + "',Nickname = '" + obj.Nickname + "',NatLangCode = " + str(obj.NatLangCode) + ",CultureCode = " + str(obj.CultureCode) + ",Gender = '" + obj.Gender + "' WHERE Id= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

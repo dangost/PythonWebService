@@ -45,7 +45,7 @@ class InventoriesRepository(Inventory, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE Inventories SET ProductId = '" + str(obj.ProductId) + "',WarehouseId = '" + str(obj.WarehouseId) + "',QuantityOnHand = '" + str(obj.QuantityOnHand) + "',QuantityAvaliable = '" + str(obj.QuantityAvaliable) + " WHERE InventoryId= "+str(id)+";"
+        request = "UPDATE Inventories SET ProductId = " + str(obj.ProductId) + ",WarehouseId = " + str(obj.WarehouseId) + ",QuantityOnHand = " + str(obj.QuantityOnHand) + ",QuantityAvaliable = " + str(obj.QuantityAvaliable) + " WHERE InventoryId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

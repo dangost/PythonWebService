@@ -42,8 +42,6 @@ def post_restrictedinfo():
 
     except BaseException:
         return "Invalid data"
-
-
     try:
         restrictedinfo_db.add(obj)
     except BaseException:

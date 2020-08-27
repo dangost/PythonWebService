@@ -45,7 +45,8 @@ class ProductsRepository(Product, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE Products SET ProductName = '" + obj.ProductName + "',Description = '" + obj.Description + "',Category = '" + str(obj.Category) + "',WeightClass = '" + str(obj.WeightClass) + "',WarrantlyPeriod = '" + str(obj.WarrantlyPeriod) + "',SupplierId = '" + str(obj.SupplierId) + "',Status = '" + obj.Status + "',ListPrice = '" + str(obj.ListPrice) + "',MinimumPrice = '" + str(obj.MinimumPrice) + "',PriceCurrency = '" + obj.PriceCurrency + "',CatalogURL = '" + obj.CatalogURL + " WHERE ProductId= "+str(id)+";"
+        request = "UPDATE Products SET ProductName = '" + obj.ProductName + "',Description = '" + obj.Description + "',Category = " + str(obj.Category) + ",WeightClass = " + str(obj.WeightClass) + ",WarrantlyPeriod = " + str(obj.WarrantlyPeriod) + ",SupplierId = " + str(obj.SupplierId) + ",Status = '" + obj.Status + "',ListPrice = " + str(obj.ListPrice) + ",MinimumPrice = " + str(obj.MinimumPrice) + ",PriceCurrency = '" + obj.PriceCurrency + "',CatalogURL = '" + obj.CatalogURL + "' WHERE ProductId= "+str(id)+";"
+        print(request)
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)

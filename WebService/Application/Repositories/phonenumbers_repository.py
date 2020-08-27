@@ -45,7 +45,7 @@ class PhoneNumbersRepository(PhoneNumber, ARepository):
         connection.close()
 
     def edit(self, id, obj) -> None:
-        request = "UPDATE PhoneNumbers SET PeoplePersonId = '" + str(obj.PeoplePersonId) + "',LocationsLocationId = '" + str(obj.LocationLocationId) + "',Phonenumber = '" + str(obj.Phonenumber) + "',CountryCode = '" + str(obj.CountryCode) + "',PhoneType = '" + str(obj.PhoneType) + " WHERE PhoneNumberId= "+str(id)+";"
+        request = "UPDATE PhoneNumbers SET PeoplePersonId = " + str(obj.PeoplePersonId) + ",LocationsLocationId = " + str(obj.LocationLocationId) + ",Phonenumber = " + str(obj.Phonenumber) + ",CountryCode = " + str(obj.CountryCode) + ",PhoneType = " + str(obj.PhoneType) + " WHERE PhoneNumberId= "+str(id)+";"
         connection = sqlite3.connect(self.sqlite_path)
         c = connection.cursor()
         c.execute(request)
