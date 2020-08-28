@@ -31,7 +31,7 @@ def post_customer():
     schema = Schemes.customer_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.PersonId = req_data["PersonId"]
@@ -40,7 +40,7 @@ def post_customer():
         obj.IncomeLevel = req_data["IncomeLevel"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         customers_db.add(obj)
     except sqlite3.DatabaseError:
@@ -63,7 +63,7 @@ def put_customer(id):
     schema = Schemes.customer_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.PersonId = req_data["PersonId"]
@@ -72,7 +72,7 @@ def put_customer(id):
         obj.IncomeLevel = req_data["IncomeLevel"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         customers_db.edit(id, obj)
     except sqlite3.DatabaseError:

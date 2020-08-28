@@ -31,7 +31,7 @@ def post_product():
     schema = Schemes.product_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.ProductName = req_data["ProductName"]
@@ -47,7 +47,7 @@ def post_product():
         obj.CatalogURL = req_data["CatalogURL"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         products_db.add(obj)
     except sqlite3.DatabaseError:
@@ -70,7 +70,7 @@ def put_product(id):
     schema = Schemes.product_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.ProductName = req_data["ProductName"]
@@ -86,7 +86,7 @@ def put_product(id):
         obj.CatalogURL = req_data["CatalogURL"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         products_db.edit(id, obj)
     except sqlite3.DatabaseError:

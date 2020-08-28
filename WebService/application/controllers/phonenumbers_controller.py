@@ -31,7 +31,7 @@ def post_phonenumber():
     schema = Schemes.phonenumber_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.PeoplePersonId = req_data["PeoplePersonId"]
@@ -41,7 +41,7 @@ def post_phonenumber():
         obj.PhoneType = req_data["PhoneType"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         phonenumbers_db.add(obj)
     except sqlite3.DatabaseError:
@@ -64,7 +64,7 @@ def put_phonenumber(id):
     schema = Schemes.phonenumber_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.PeoplePersonId = req_data["PeoplePersonId"]
@@ -74,7 +74,7 @@ def put_phonenumber(id):
         obj.PhoneType = req_data["PhoneType"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         phonenumbers_db.edit(id, obj)
     except sqlite3.DatabaseError:

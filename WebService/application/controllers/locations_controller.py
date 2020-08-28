@@ -31,7 +31,7 @@ def post_location():
     schema = Schemes.location_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.CountryId = req_data["CountryId"]
@@ -47,7 +47,7 @@ def post_location():
         obj.CountriesCountryId = req_data["CountriesCountryId"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         locations_db.add(obj)
     except sqlite3.DatabaseError:
@@ -70,7 +70,7 @@ def put_location(id):
     schema = Schemes.location_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.CountryId = req_data["CountryId"]
@@ -86,7 +86,7 @@ def put_location(id):
         obj.CountriesCountryId = req_data["CountriesCountryId"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         locations_db.edit(id, obj)
     except sqlite3.DatabaseError:

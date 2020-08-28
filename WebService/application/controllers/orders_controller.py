@@ -31,7 +31,7 @@ def post_orders():
     schema = Schemes.orders_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.CustomerId = req_data["CustomerId"]
@@ -44,7 +44,7 @@ def post_orders():
         obj.PromotionCode = req_data["PromotionCode"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         orders_db.add(obj)
     except sqlite3.DatabaseError:
@@ -67,7 +67,7 @@ def put_orders(id):
     schema = Schemes.orders_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.CustomerId = req_data["CustomerId"]
@@ -80,7 +80,7 @@ def put_orders(id):
         obj.PromotionCode = req_data["PromotionCode"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         orders_db.edit(id, obj)
     except sqlite3.DatabaseError:

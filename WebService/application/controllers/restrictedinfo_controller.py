@@ -31,7 +31,7 @@ def post_restrictedinfo():
     schema = Schemes.restrictedinfo_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.DateOfBirth = req_data["DateOfBirth"]
@@ -42,7 +42,7 @@ def post_restrictedinfo():
         obj.SeniorityCode = req_data["SeniorityCode"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         restrictedinfo_db.add(obj)
     except sqlite3.DatabaseError:
@@ -65,7 +65,7 @@ def put_restrictedinfo(id):
     schema = Schemes.restrictedinfo_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.DateOfBirth = req_data["DateOfBirth"]
@@ -76,7 +76,7 @@ def put_restrictedinfo(id):
         obj.SeniorityCode = req_data["SeniorityCode"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         restrictedinfo_db.edit(id, obj)
     except sqlite3.DatabaseError:

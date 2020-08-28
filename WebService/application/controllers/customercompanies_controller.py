@@ -31,7 +31,7 @@ def post_customercompany():
     schema = Schemes.customercompany_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.CompanyName = req_data["CompanyName"]
@@ -39,7 +39,7 @@ def post_customercompany():
         obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         customercompanies_db.add(obj)
     except sqlite3.DatabaseError:
@@ -62,7 +62,7 @@ def put_customercompany(id):
     schema = Schemes.customercompany_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.CompanyName = req_data["CompanyName"]
@@ -70,7 +70,7 @@ def put_customercompany(id):
         obj.CreditLimitCurrency = req_data["CreditLimitCurrency"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         customercompanies_db.edit(id, obj)
     except sqlite3.DatabaseError:

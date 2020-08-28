@@ -31,14 +31,14 @@ def post_warehouse():
     schema = Schemes.warehouse_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.LocationId = req_data["LocationId"]
         obj.WarehouseName = req_data["WarehouseName"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         warehouses_db.add(obj)
     except sqlite3.DatabaseError:
@@ -61,14 +61,14 @@ def put_warehouse(id):
     schema = Schemes.warehouse_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.LocationId = req_data["LocationId"]
         obj.WarehouseName = req_data["WarehouseName"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         warehouses_db.edit(id, obj)
     except sqlite3.DatabaseError:

@@ -31,7 +31,7 @@ def post_employmentjobs():
     schema = Schemes.employmentjobs_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.CountriesCountryId = req_data["CountriesCountryId"]
@@ -40,7 +40,7 @@ def post_employmentjobs():
         obj.MaxSalary = req_data["MaxSalary"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         employmentjobs_db.add(obj)
     except sqlite3.DatabaseError:
@@ -63,7 +63,7 @@ def put_employmentjobs(id):
     schema = Schemes.employmentjobs_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.CountriesCountryId = req_data["CountriesCountryId"]
@@ -72,7 +72,7 @@ def put_employmentjobs(id):
         obj.MaxSalary = req_data["MaxSalary"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         employmentjobs_db.edit(id, obj)
     except sqlite3.DatabaseError:

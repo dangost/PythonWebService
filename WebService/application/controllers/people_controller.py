@@ -31,7 +31,7 @@ def post_person():
     schema = Schemes.person_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.FirstName = req_data["FirstName"]
@@ -43,7 +43,7 @@ def post_person():
         obj.Gender = req_data["Gender"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         people_db.add(obj)
     except sqlite3.DatabaseError:
@@ -66,7 +66,7 @@ def put_person(id):
     schema = Schemes.person_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.FirstName = req_data["FirstName"]
@@ -78,7 +78,7 @@ def put_person(id):
         obj.Gender = req_data["Gender"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         people_db.edit(id, obj)
     except sqlite3.DatabaseError:

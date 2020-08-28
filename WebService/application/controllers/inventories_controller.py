@@ -31,7 +31,7 @@ def post_inventory():
     schema = Schemes.inventory_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.ProductId = req_data["ProductId"]
@@ -40,7 +40,7 @@ def post_inventory():
         obj.QuantityAvaliable = req_data["QuantityAvaliable"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         inventories_db.add(obj)
     except sqlite3.DatabaseError:
@@ -63,7 +63,7 @@ def put_inventory(id):
     schema = Schemes.inventory_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.ProductId = req_data["ProductId"]
@@ -72,7 +72,7 @@ def put_inventory(id):
         obj.QuantityAvaliable = req_data["QuantityAvaliable"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         inventories_db.edit(id, obj)
     except sqlite3.DatabaseError:

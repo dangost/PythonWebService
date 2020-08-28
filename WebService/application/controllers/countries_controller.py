@@ -31,7 +31,7 @@ def post_country():
     schema = Schemes.country_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.CountryName = req_data["CountryName"]
@@ -40,7 +40,7 @@ def post_country():
         obj.CurrencyCode = req_data["CurrencyCode"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         countries_db.add(obj)
     except sqlite3.DatabaseError:
@@ -63,7 +63,7 @@ def put_country(id):
     schema = Schemes.country_json
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.NO_CONTENT
+        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
         obj.CountryName = req_data["CountryName"]
@@ -72,7 +72,7 @@ def put_country(id):
         obj.CurrencyCode = req_data["CurrencyCode"]
 
     except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.NO_CONTENT
+        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
     try:
         countries_db.edit(id, obj)
     except sqlite3.DatabaseError:
