@@ -24,7 +24,7 @@ def get_employmentjobs_id(id):
 def post_employmentjobs():
     obj = EmploymentJobs()
     req_data = request.get_json()
-    schema = Schemes.employmentjobs_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -54,7 +54,7 @@ def delete_employmentjobs(id):
 def put_employmentjobs(id):
     obj = EmploymentJobs()
     req_data = request.get_json()
-    schema = Schemes.employmentjobs_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR

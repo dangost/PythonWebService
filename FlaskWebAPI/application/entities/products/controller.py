@@ -24,7 +24,7 @@ def get_products_id(id):
 def post_product():
     obj = Product()
     req_data = request.get_json()
-    schema = Schemes.product_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -61,7 +61,7 @@ def delete_product(id):
 def put_product(id):
     obj = Product()
     req_data = request.get_json()
-    schema = Schemes.product_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR

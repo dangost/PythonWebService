@@ -39,28 +39,35 @@ base = [
 path = r"D:\Projects\Regula\Web\PythonWebService\FlaskWebAPI\application\entities"
 
 for i in range(len(class_names)):
-    new_path = path + "\\" + list_names[i].lower() + "\\repository.py"
-    file = open(new_path, 'w')
-    # obj.CountryName = req_data["CountryName"]
-
-    t = ""
-    v = "    ls = ["
+    v = ""
     for each in base[i]:
-        t += "        obj." + each + " = req_data[\"" + each + "\"]\n"
-        v += "obj." + each + ", "
+        temppp = ""
+        if base[i].get(each) == "int":
+            temppp = "111"
+        else: temppp = '"string"'
+        v +="temp."+each+" = "+temppp+"\n"
 
-    inv = "    if not validation(ls): return \"Invalid data\""
-    v = v[0:-2] + "]\n" + inv
+
+    new_path = path + "\\" + list_names[i].lower() + "\\model_test.py"
+    file = open(new_path, 'w')
 
     temp = '''from application.entities.'''+list_names[i].lower()+'''.model import '''+class_names[i]+'''
-import application.entities.'''+list_names[i].lower()+'''.schema as base
-import sqlite3
-from typing import List
-from application.entities.'''+list_names[i].lower()+'''.interface import Base'''+list_names[i]+'''Repository
 
 
-class '''+list_names[i]+'''Repository(Base'''+list_names[i]+'''Repository):
-    pass
-    '''
+def temp_'''+class_names[i].lower()+'''():
+    temp = '''+class_names[i]+'''()
+    #
+    #
+    return temp
 
-    #file.write(temp)
+def test_load():
+    fetch = ()
+    obj = '''+class_names[i]+'''()
+    obj.load(fetch)
+
+    return obj
+
+
+assert test_load() == temp_'''+class_names[i].lower()+'''()
+'''
+    file.write(temp)

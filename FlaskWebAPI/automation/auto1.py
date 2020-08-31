@@ -39,83 +39,27 @@ base = [
 path = r"D:\Projects\Regula\Web\PythonWebService\FlaskWebAPI\application\entities"
 
 for i in range(len(class_names)):
-    new_path = path + "\\" + list_names[i].lower() + "\\controller.py"
+    new_path = path + "\\" + list_names[i].lower() + "\\controller_test.py"
     file = open(new_path, 'w')
     # obj.CountryName = req_data["CountryName"]
 
     t = ""
     v = "    ls = ["
-    for each in base[i]:
-        t += "        obj." + each + " = req_data[\"" + each + "\"]\n"
-        v += "obj." + each + ", "
 
-    inv = "    if not validation(ls): return \"Invalid data\""
-    v = v[0:-2] + "]\n" + inv
-
-    temp = '''import json\nimport sqlite3
-from application.app import ''' + list_names[i].lower() + '''_db
-from http import HTTPStatus
-from flask import jsonify
-from flask import Blueprint, request
-import cerberus
-from application.entities.'''+list_names[i].lower()+'''.schema import get_json_schema
-from application.entities.'''+list_names[i].lower()+'''.model import '''+class_names[i]+'''
-''' + list_names[i].lower() + '''_controller_api = Blueprint(\'''' + list_names[i].lower() + '''_controller_api\', __name__)
-''' + list_names[i].lower() + '''_api = Blueprint(\'''' + list_names[i].lower() + '''_api\', __name__)
-@''' + list_names[i].lower() + '''_controller_api.route("/api/''' + list_names[i] + '''", methods=['GET'])
-
-def get_''' + list_names[i].lower() + '''():
-    obj = ''' + list_names[i].lower() + '''_db.get()
-    return jsonify(obj), HTTPStatus.OK
-
-@''' + list_names[i].lower() + '''_controller_api.route("/api/''' + list_names[i] + '''/<int:id>", methods=['GET'])
-def get_''' + list_names[i].lower() + '''_id(id):
-    obj = ''' + list_names[i].lower() + '''_db.get_id(id)
-    return jsonify(obj), HTTPStatus.OK
-
-@''' + list_names[i].lower() + '''_controller_api.route("/api/''' + list_names[i] + '''", methods=['POST'])
-def post_''' + class_names[i].lower() + '''():
-    obj = ''' + class_names[i] + '''()
-    req_data = request.get_json()
-    schema = Schemes.''' + class_names[i].lower() + '''_json
-    v = cerberus.Validator(schema)
-    if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
-    try:
-''' + t + '''
-    except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
-    try:
-        ''' + list_names[i].lower() + '''_db.add(obj)
-    except sqlite3.DatabaseError:
-        return "Bad request", HTTPStatus.BAD_REQUEST
-    return "OK", HTTPStatus.OK
-
-@''' + list_names[i].lower() + '''_controller_api.route("/api/''' + list_names[i] + '''/<int:id>", methods=['DELETE'])
-def delete_''' + class_names[i].lower() + '''(id):
-    try:
-        ''' + list_names[i].lower() + '''_db.delete(id)
-    except sqlite3.DatabaseError:
-        return "Bad request", HTTPStatus.BAD_REQUEST
-    return "OK", HTTPStatus.OK
-
-@''' + list_names[i].lower() + '''_controller_api.route("/api/''' + list_names[i] + '''/<int:id>", methods=['PUT'])
-def put_''' + class_names[i].lower() + '''(id):
-    obj = ''' + class_names[i] + '''()
-    req_data = request.get_json()
-    schema = Schemes.''' + class_names[i].lower() + '''_json
-    v = cerberus.Validator(schema)
-    if not v.validate(req_data):
-        return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
-    try:
-''' + t + '''
-    except json.JSONDecodeError:
-        return "Invalid data", HTTPStatus.INTERNAL_SERVER_ERROR
-    try:
-        ''' + list_names[i].lower() + '''_db.edit(id, obj)
-    except sqlite3.DatabaseError:
-        return "Bad request", HTTPStatus.BAD_REQUEST
-    return "OK", HTTPStatus.OK
+    temp = '''import requests
+        
+json = {}
+        
+url = "http://127.0.0.1:5000/api/'''+list_names[i]+'''"
+        
+assert requests.get(url).status_code == 200
+        
+assert requests.post(url, json=json).status_code == 200
+        
+assert requests.put(url+'/1', json=json).status_code == 200
+        
+assert requests.get(url+'/1').status_code == 200
+        
+assert requests.delete(url+'/1').status_code != 200
     '''
-
     file.write(temp)

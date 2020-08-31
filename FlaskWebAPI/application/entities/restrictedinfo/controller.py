@@ -24,7 +24,7 @@ def get_restrictedinfo_id(id):
 def post_restrictedinfo():
     obj = RestrictedInfo()
     req_data = request.get_json()
-    schema = Schemes.restrictedinfo_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -56,7 +56,7 @@ def delete_restrictedinfo(id):
 def put_restrictedinfo(id):
     obj = RestrictedInfo()
     req_data = request.get_json()
-    schema = Schemes.restrictedinfo_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR

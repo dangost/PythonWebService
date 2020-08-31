@@ -24,7 +24,7 @@ def get_personlocations_id(id):
 def post_personlocation():
     obj = PersonLocation()
     req_data = request.get_json()
-    schema = Schemes.personlocation_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -54,7 +54,7 @@ def delete_personlocation(id):
 def put_personlocation(id):
     obj = PersonLocation()
     req_data = request.get_json()
-    schema = Schemes.personlocation_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR

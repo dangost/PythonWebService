@@ -39,45 +39,60 @@ base = [
 path = r"D:\Projects\Regula\Web\PythonWebService\FlaskWebAPI\application\entities"
 
 for i in range(len(class_names)):
-    new_path = path + "\\" + list_names[i].lower() + "\\interface.py"
-    file = open(new_path, 'w')
-    # obj.CountryName = req_data["CountryName"]
-
-    t = ""
-    v = "    ls = ["
+    v = ""
     for each in base[i]:
-        t += "        obj." + each + " = req_data[\"" + each + "\"]\n"
-        v += "obj." + each + ", "
-
-    inv = "    if not validation(ls): return \"Invalid data\""
-    v = v[0:-2] + "]\n" + inv
-
-    temp = '''from abc import ABC, abstractmethod
-from application.entities.contacts.model import '''+class_names[i]+'''
-from typing import List
+        temppp = ""
+        if base[i].get(each) == "int":
+            temppp = "111"
+        else: temppp = '"string"'
+        v +="temp."+each+" = "+temppp+"\n"
 
 
-class Base'''+list_names[i]+'''Repository(ABC):
-    @abstractmethod
-    def add(self, obj) -> None:
-        pass
+    new_path = path + "\\" + list_names[i].lower() + "\\repository_test.py"
+    file = open(new_path, 'w')
 
-    @abstractmethod
-    def edit(self, id, obj) -> None:
-        pass
+    temp = '''from application.entities.'''+list_names[i].lower()+'''.repository import '''+list_names[i]+'''Repository
+from application.entities.'''+list_names[i].lower()+'''.model_test import temp_'''+class_names[i].lower()+'''
 
-    @abstractmethod
-    def delete(self, id) -> None:
-        pass
 
-    @abstractmethod
-    def get(self) -> List['''+class_names[i]+''']:
-        pass
+a = '''+list_names[i]+'''Repository()
 
-    @abstractmethod
-    def get_id(self, id) -> '''+class_names[i]+''':
-        pass
+# get
+t = True
+try:
+    a.get()
 
-    '''
+except BaseException:
+    t = False
+assert t
 
+
+# post
+t = True
+try:
+    a.post(1, temp_'''+class_names[i].lower()+'''())
+
+except BaseException:
+    t = False
+assert t
+
+# put
+t = True
+try:
+    a.put(1, temp_'''+class_names[i].lower()+'''())
+
+except BaseException:
+    t = False
+assert t
+
+# delete
+t = True
+try:
+    a.delete(1)
+
+except BaseException:
+    t = False
+assert t
+
+'''
     file.write(temp)

@@ -24,7 +24,7 @@ def get_inventories_id(id):
 def post_inventory():
     obj = Inventory()
     req_data = request.get_json()
-    schema = Schemes.inventory_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -54,7 +54,7 @@ def delete_inventory(id):
 def put_inventory(id):
     obj = Inventory()
     req_data = request.get_json()
-    schema = Schemes.inventory_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR

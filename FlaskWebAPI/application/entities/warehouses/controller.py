@@ -24,7 +24,7 @@ def get_warehouses_id(id):
 def post_warehouse():
     obj = Warehouse()
     req_data = request.get_json()
-    schema = Schemes.warehouse_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -52,7 +52,7 @@ def delete_warehouse(id):
 def put_warehouse(id):
     obj = Warehouse()
     req_data = request.get_json()
-    schema = Schemes.warehouse_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR

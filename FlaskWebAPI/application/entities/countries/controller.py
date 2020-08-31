@@ -9,6 +9,7 @@ from application.entities.countries.schema import get_json_schema
 from application.entities.countries.model import Country
 countries_controller_api = Blueprint('countries_controller_api', __name__)
 countries_api = Blueprint('countries_api', __name__)
+
 @countries_controller_api.route("/api/Countries", methods=['GET'])
 
 def get_countries():
@@ -24,7 +25,7 @@ def get_countries_id(id):
 def post_country():
     obj = Country()
     req_data = request.get_json()
-    schema = Schemes.country_json
+    schema = get_json_schema()
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -54,7 +55,7 @@ def delete_country(id):
 def put_country(id):
     obj = Country()
     req_data = request.get_json()
-    schema = Schemes.country_json
+    schema = get_json_schema()
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR

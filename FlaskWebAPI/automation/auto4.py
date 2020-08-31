@@ -39,45 +39,23 @@ base = [
 path = r"D:\Projects\Regula\Web\PythonWebService\FlaskWebAPI\application\entities"
 
 for i in range(len(class_names)):
-    new_path = path + "\\" + list_names[i].lower() + "\\interface.py"
-    file = open(new_path, 'w')
-    # obj.CountryName = req_data["CountryName"]
-
-    t = ""
-    v = "    ls = ["
+    v = ""
     for each in base[i]:
-        t += "        obj." + each + " = req_data[\"" + each + "\"]\n"
-        v += "obj." + each + ", "
-
-    inv = "    if not validation(ls): return \"Invalid data\""
-    v = v[0:-2] + "]\n" + inv
-
-    temp = '''from abc import ABC, abstractmethod
-from application.entities.'''+list_names[i].lower()+'''.model import '''+class_names[i]+'''
-from typing import List
+        temppp = ""
+        if base[i].get(each) == "int":
+            temppp = "111"
+        else: temppp = '"string"'
+        v +="temp."+each+" = "+temppp+"\n"
 
 
-class Base'''+list_names[i]+'''Repository(ABC):
-    @abstractmethod
-    def add(self, obj) -> None:
-        pass
+    new_path = path + "\\" + list_names[i].lower() + "\\schema_test.py"
+    file = open(new_path, 'w')
 
-    @abstractmethod
-    def edit(self, id, obj) -> None:
-        pass
+    temp = '''from application.entities.'''+list_names[i].lower()+'''.schema import get_json_schema
 
-    @abstractmethod
-    def delete(self, id) -> None:
-        pass
+a = get_json_schema()
 
-    @abstractmethod
-    def get(self) -> List['''+class_names[i]+''']:
-        pass
+assert type(a) == dict
 
-    @abstractmethod
-    def get_id(self, id) -> '''+class_names[i]+''':
-        pass
-
-    '''
-
+'''
     file.write(temp)

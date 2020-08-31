@@ -24,7 +24,7 @@ def get_customercompanies_id(id):
 def post_customercompany():
     obj = CustomerCompany()
     req_data = request.get_json()
-    schema = Schemes.customercompany_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -53,7 +53,7 @@ def delete_customercompany(id):
 def put_customercompany(id):
     obj = CustomerCompany()
     req_data = request.get_json()
-    schema = Schemes.customercompany_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR

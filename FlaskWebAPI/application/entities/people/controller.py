@@ -24,7 +24,7 @@ def get_people_id(id):
 def post_person():
     obj = Person()
     req_data = request.get_json()
-    schema = Schemes.person_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -57,7 +57,7 @@ def delete_person(id):
 def put_person(id):
     obj = Person()
     req_data = request.get_json()
-    schema = Schemes.person_json
+    schema = get_json_schema
     v = cerberus.Validator(schema)
     if not v.validate(req_data):
         return "Invalid json", HTTPStatus.INTERNAL_SERVER_ERROR
