@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-from application.entities.customers.model import Customer
+from application.entities.warehouses.model import Warehouse
 from typing import List
 
 
-class BaseCustomersRepository(ABC):
+class BaseWarehousesRepository(ABC):
     @abstractmethod
     def add(self, obj) -> None:
         pass
@@ -17,11 +17,11 @@ class BaseCustomersRepository(ABC):
         pass
 
     @abstractmethod
-    def get(self) -> List[Customer]:
+    def get(self) -> List[Warehouse]:
         pass
 
     @abstractmethod
-    def get_id(self, id) -> Customer:
+    def get_id(self, id) -> Warehouse:
         pass
 
     

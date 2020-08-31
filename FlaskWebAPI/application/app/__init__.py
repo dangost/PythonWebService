@@ -13,7 +13,7 @@ from application.entities.personlocations.interface import BasePersonLocationsRe
 from application.entities.phonenumbers.interface import BasePhoneNumbersRepository
 from application.entities.products.interface import BaseProductsRepository
 from application.entities.restrictedinfo.interface import BaseRestrictedInfoRepository
-from application.entities.warehouse.interface import BaseWarehousesRepository
+from application.entities.warehouses.interface import BaseWarehousesRepository
 
 from application.entities.countries.repository import CountriesRepository
 from application.entities.customers.repository import CustomersRepository
@@ -30,7 +30,7 @@ from application.entities.personlocations.repository import PersonLocationsRepos
 from application.entities.phonenumbers.repository import PhoneNumbersRepository
 from application.entities.products.repository import ProductsRepository
 from application.entities.restrictedinfo.repository import RestrictedInfoRepository
-from application.entities.warehouse.repository import WarehousesRepository
+from application.entities.warehouses.repository import WarehousesRepository
 
 
 from application.db import sqlite
@@ -43,7 +43,7 @@ customers_db: BaseCustomersRepository = CustomersRepository()
 
 customercompanies_db: BaseCustomerCompaniesRepository = CustomerCompaniesRepository()
 
-customeremployees_db: CustomerEmployeesRepository = CustomerEmployeesRepository()
+customeremployees_db: BaseCustomerEmployeesRepository = CustomerEmployeesRepository()
 
 employments_db: BaseEmploymentsRepository = EmploymentsRepository()
 

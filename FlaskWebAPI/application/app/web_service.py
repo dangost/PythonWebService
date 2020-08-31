@@ -1,0 +1,48 @@
+from flask import Flask
+from application.entities.countries.controller import countries_controller_api
+from application.entities.customers.controller import customers_controller_api
+from application.entities.customercompanies.controller import customercompanies_controller_api
+from application.entities.customeremployees.controller import customeremployees_controller_api
+from application.entities.employments.controller import employments_controller_api
+from application.entities.employmentjobs.controller import employmentjobs_controller_api
+from application.entities.inventories.controller import inventories_controller_api
+from application.entities.locations.controller import locations_controller_api
+from application.entities.orderitems.controller import orderitems_controller_api
+from application.entities.orders.controller import orders_controller_api
+from application.entities.people.controller import people_controller_api
+from application.entities.personlocations.controller import personlocations_controller_api
+from application.entities.phonenumbers.controller import phonenumbers_controller_api
+from application.entities.products.controller import products_controller_api
+from application.entities.restrictedinfo.controller import restrictedinfo_controller_api
+from application.entities.warehouses.controller import warehouses_controller_api
+
+app = Flask(__name__)
+
+app.register_blueprint(countries_controller_api)
+app.register_blueprint(customers_controller_api)
+app.register_blueprint(customercompanies_controller_api)
+app.register_blueprint(customeremployees_controller_api)
+app.register_blueprint(employments_controller_api)
+app.register_blueprint(employmentjobs_controller_api)
+app.register_blueprint(inventories_controller_api)
+app.register_blueprint(locations_controller_api)
+app.register_blueprint(orderitems_controller_api)
+app.register_blueprint(orders_controller_api)
+app.register_blueprint(people_controller_api)
+app.register_blueprint(personlocations_controller_api)
+app.register_blueprint(phonenumbers_controller_api)
+app.register_blueprint(products_controller_api)
+app.register_blueprint(restrictedinfo_controller_api)
+app.register_blueprint(warehouses_controller_api)
+
+
+if __name__ == "__main__":
+    app.run()
+
+
+
+
+
+
+
+
